@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/base.css">
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  .wrap {
+    padding: 1em;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  textarea {
+    padding: 1em;
+    width: 45%;
+    height: 400px;
+    float: left;
+    font-size: 16px;
+  }
+
+  .oper {
+    float: left;
+    width: 10%;
+  }
+
+  input {
+    font-size: 16px;
+    line-height: 2em;
+    display: block;
+    margin: 5em auto;
+  }
+
+  .wrap+p {
+    text-align: center;
+    padding-top: 10em;
+  }
+
+  footer {
+    clear: both;
+    text-align: center;
+    padding-top: 10em;
+  }
+</style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+
+<div class="wrap">
+  <textarea id="bf"></textarea>
+  <div class="oper">
+    <input type="button" id="parse" value="parse">
+    <input type="button" id="curl" value="curl">
+    <input type="button" id="nobr" value="nobr">
+  </div>
+  <textarea id="af"></textarea>
+</div>
+<p><a href="#open" id="open" target="_blank">Open Link in New Tab</a></p>
+
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+<script>
+  $('#open').on('mouseover', function() {
+    var params = $('#af').val().split('\n');
+    var url = params.shift() + '?';
+    params.forEach(function(param) {
+      var kv = param.split(':');
+      var key = kv.shift();
+      var value = encodeURIComponent(kv.join(':'));
+      url += '&' + key + '=' + value;
+    });
+    $('#open').attr('href', url);
+  });
+
+  var nobr = function(str) {
+    try {
+      var dataStr = str.replace(/\n/g, '');
+      window.__nobr = JSON.parse(dataStr);
+      return dataStr;
+    } catch (ex) {
+      return 'Something wrong';
+    }
+  };
+
+  var parse2curl = function(str) {
+    var tmp = str.split(' ');
+    var url = tmp.shift();
+    return `curl --request POST \\
+  --url ${url} \\
+  --header 'cache-control: no-cache' \\
+  --header 'content-type: application/json' \\
+  --data '${tmp.join(' ').replace(/\'/g, "'\\''")}'`;
+  };
+
+  var parse = function(str) {
+    var output = [];
+    str = str.trim();
+    try {
+      var data = null;
+      try {
+        data = JSON.parse(str);
+      } catch (ex) {
+        data = eval('window.__temp__ = ' + str);
+      }
+      for (var key in data) {
+        output.push(key + ':' + data[key]);
+      }
+    } catch (ex) {
+      var link = document.createElement('a');
+      link.setAttribute('href', str);
+      (link.search || '')
+        .replace(/^\?/, '')
+        .split('&').forEach(function(v) {
+          var kv = v.split('=');
+          if (/(\%[A-F\d]{2})+/.test(kv[1])) {
+            kv[1] = decodeURIComponent(kv[1]);
+          }
+          output.push(kv.join(':'));
+        });
+      output = output.sort();
+      output.unshift(link.origin + link.pathname);
+    }
+    return output.join('\n');
+  };
+
+  function getBf() {
+    var val = $('#bf').val();
+    localStorage.bulk_bf = val;
+    return val;
+  }
+
+  $('#parse').click(function() {
+    var bf = getBf();
+    $('#af').val(parse(bf));
+  });
+
+  $('#curl').click(function() {
+    var bf = getBf();
+    $('#af').val(parse2curl(bf));
+  });
+
+  $('#nobr').click(function() {
+    var bf = getBf();
+    $('#af').val(nobr(bf));
+  });
+
+  window.onload = function() {
+    var val = $('#bf').val();
+    if (!val && localStorage.bulk_bf) {
+      $('#bf').val(localStorage.bulk_bf);
+    }
+  };
+
+</script>
+</body></html>

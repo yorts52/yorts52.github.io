@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <title>农历</title>
+  <script type="text/javascript" src="calendar.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var today = new Calendar();
+    today.cDate.toString = function() {
+      return this.yf + '月' + this.rq;
+    };
+    document.write('today => ' + today.cDate + '<br />');
+
+    var dstr = '2012/6/1 12:00:00';
+    var dval = new Calendar(new Date(dstr)).cDate;
+    document.write(dstr + ' => ' + dval + '<br />');
+  </script>
+
+</html>

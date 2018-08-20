@@ -1,0 +1,1 @@
+var B={query:function(n,t){var a=new RegExp("[?&]"+n.toString()+"=([^&#$]+)");return((t||location.search).match(a)||["",""])[1]},hash:function(n,t,a){var e=new RegExp("([#&])"+n.toString()+"=([^&$]+)");return a=a||location.hash,t?(a=e.test(a)?a.replace(e,["$1",n,"=",t].join("")):a.replace(/([^&]?)&?$/,["$1","&",n,"=",t].join("")),location.hash=a):(a.match(e)||["","",""])[2]}};

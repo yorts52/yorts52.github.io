@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>Query</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<style>
+  form {
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  input, select {
+    padding: 5px;
+    margin: 10px;
+  }
+
+  button {
+    padding: 5px 15px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    background: #ccc;
+    border: 1px solid #666;
+  }
+
+  td {
+    border: 1px solid #666;
+    text-align: center;
+  }
+
+  tr.odd {
+    background: #eee;
+  }
+
+  #pager {
+    text-align: center;
+    padding: 50px 0;
+  }
+
+  #pager a, #pager .curr {
+    border: 1px solid #666;
+    background: #eee;
+    color: #333;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    min-width: 18px;
+    height: 24px;
+    line-height: 24px;
+    margin: 5px;
+    padding: 2px 5px;
+  }
+
+  #pager .curr {
+    border: 1px solid #fff;
+    background: #fff;
+    color: #333;
+  }
+
+  #pager a.pn {
+    width: 80px;
+  }
+</style>
+<link rel="stylesheet" href="/css/base.css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+<form id="filter" action="./query.html">
+  <input type="hidden" name="page" id="pageIndex">
+  <label for="phone">手机:</label>
+  <input type="text" name="phone" id="phone">
+  <button type="submit" id="submit">查询</button>
+</form>
+<div class="main">
+  <table>
+    <tr>
+      <th>序号</th>
+      <th>日期</th>
+    </tr>
+    <tbody id="dataview"></tbody>
+  </table>
+</div>
+<div id="pager"></div>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+<script>
+  var currentPage = parseInt((location.search.match(/page=(\d+)/) || [])[1], 10) || 0;
+  var phone = (location.search.match(/phone=(\d+)/) || [])[1] || '';
+
+  $('#pageIndex').val(0);
+  $('#phone').val(phone);
+
+  var query = {
+    page: currentPage,
+    phone: phone
+  };
+
+  function gotoPage(page) {
+    page = page === '+1' ? (currentPage + 1) : page === '-1' ? (currentPage - 1) : page;
+    $('#pageIndex').val(page);
+    $('#submit').click();
+  }
+
+  function render(data) {
+    var list = data.data;
+    if (!list.length) return;
+    var html = [];
+    Array.isArray(list) && list.forEach(function(item, index) {
+      html.push('<tr class="' + (index % 2 ? 'odd' : '') + '">');
+      html.push(' <td>' + (index + 1) + '</td>');
+      html.push(' <td>' + item.updated + '</td>');
+      html.push('</tr>');
+    });
+
+    $('#dataview').html(html.join(''));
+
+    var pageTotal = Math.ceil(data.count / data.pageSize);
+    var lts = [];
+    var curr = [];
+    var gts = [];
+
+    while (pageTotal--) {
+      if (pageTotal < currentPage) {
+        lts.unshift('<a class="lt" href="javascript:gotoPage(' + pageTotal + ')">' + (pageTotal + 1) + '</a>');
+      }
+      if (pageTotal === currentPage) {
+        curr.unshift('<span class="curr">' + (pageTotal + 1) + '</span>');
+      }
+      if (pageTotal > currentPage) {
+        gts.unshift('<a class="gt" href="javascript:gotoPage(' + pageTotal + ')">' + (pageTotal + 1) + '</a>');
+      }
+    }
+
+    var ddd = '<span>...</span>';
+
+    if (lts.length > 5) {
+      lts = [].concat(lts.slice(0, 2), ddd, lts.slice(-3));
+    }
+    if (lts.length) {
+      lts.unshift('<a class="pn" href="javascript:gotoPage(\'-1\')">上一页</a>');
+    } else {
+      lts.unshift('<span class="pn">上一页</span>');
+    }
+
+    if (gts.length > 5) {
+      gts = [].concat(gts.slice(0, 3), ddd, gts.slice(-2));
+    }
+    if (gts.length) {
+      gts.push('<a class="pn" href="javascript:gotoPage(\'+1\')">下一页</a>');
+    } else {
+      gts.push('<span class="pn">下一页</span>');
+    }
+
+    $('#pager').html([].concat(lts, curr, gts).join(''));
+  }
+
+  if (false) {
+    $.ajax({
+      url: '/api/query',
+      data: query,
+      success: render
+    });
+  } else {
+    render({
+      "code": 0,
+      "pageIndex": 0,
+      "pageSize": 20,
+      "count": 11,
+      "data": [
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        },
+        {
+          "updated": "2017-07-19T06:21:09.843Z"
+        }
+      ]
+    });
+  }
+
+</script>
+</body></html>

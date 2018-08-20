@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>Reader</title>
+<link rel="stylesheet" href="/css/base.css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+<style>
+    body {
+        color: #fff;
+        background: #123;
+    }
+    #result {
+        font-size: 16px;
+        line-height: 1.5em;
+    }
+    footer {
+        display: none;
+    }
+</style>
+<input type="file" id="file" onchange="readAsText()">
+<div id="result" name="result"></div>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+<script>
+
+// 阅读器渲染
+var index = 0;
+var rollback = 150;
+var text_length = 0;
+var stop_reader = false;
+var timeout = parseInt(B.query('speed'), 10) || 100;
+var reader_history = parseInt(localStorage.reader_history, 10) || 0;
+var hash_history = parseInt(B.hash('h'), 10) || 0;
+
+reader_history = Math.max(reader_history, hash_history);
+reader_history = reader_history > rollback ? reader_history - rollback : 0;
+
+var reader = function(text) {
+    text = text.replace(/\s*\n+\s*/g, "\x01").replace(/\s+/g, "");
+    text_length = text.length;
+    var start = index = reader_history;
+    var lines = [];
+    var read = function() {
+        setTimeout(function() {
+            if (stop_reader) return read();
+            var last = ++index;
+            if (/[。；！？!?]/.test(text.charAt(last))) {
+                if (/[」”】｝）")\]]/.test(text.charAt(last + 1))) {
+                    last = ++index;
+                }
+                lines.push(last);
+            }
+            lines.length >= 5 && (start = lines.shift() + 1);
+            result.innerHTML = text.substring(start, last)
+                .replace(/\u0001/g, "<br>")
+                .replace(/([。；！？!?][」”】｝）")\]]?)/g, "$1<br>");
+            last < text_length && read();
+        }, stop_reader ? 1000 : timeout);
+    };
+    read();
+};
+
+function readAsText(){
+    var fr = new FileReader();
+    fr.readAsText(file.files[0]);
+    fr.onload = function() {
+        file.style.display = "none";
+        reader(this.result);
+    };
+}
+
+function stop(){
+    stop_reader = !stop_reader;
+    var msg = [index, (index * 100 / text_length).toFixed(2) + "%"].join(", ");
+    if (stop_reader) {
+        T.showTipsMsg(msg);
+        B.hash('h', index);
+        localStorage.reader_history = index;
+    } else {
+        T.showTipsMsg(msg, 1000);
+    }
+}
+
+document.addEventListener("keydown", function(event) {
+    var code = event.which;
+    if (code === 13 || code === 32) { // Enter Space
+        event.preventDefault();
+        stop();
+    }
+    if (code === 38) { // UP
+        timeout -= 10;
+    }
+    if (code === 40) { // DOWN
+        timeout += 10;
+    }
+});
+
+var touch_time = +new Date;
+
+var mobile_stop = function(){
+    +new Date - touch_time < 500 && stop();
+};
+
+document.ontouchstart = function(){
+    touch_time > 0 && mobile_stop();
+    touch_time = +new Date;
+    window.plus && plus.device.setWakelock(true); // 屏幕常亮
+};
+
+// var touchend = document.ontouchend = mobile_stop;
+// var touch_timer;  
+// document.ontouchmove = function(e){
+//     clearInterval(touch_timer);
+//     touch_timer = setTimeout(touchend, 200);
+// };
+
+</script>
+</body></html>

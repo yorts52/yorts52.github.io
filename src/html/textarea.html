@@ -1,0 +1,267 @@
+<!--#insert file="../common/-intro.html" -->
+<title>textarea</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<style>
+  textarea {
+    resize: none;
+    font-size: 16px;
+    width: 600px;
+    height: 300px;
+  }
+
+  #list {
+    z-index: 10000;
+    list-style: none;
+    display: none;
+    position: absolute;
+    border: 1px solid #123;
+    background: rgb(199, 218, 243);
+  }
+
+  #list .curr {
+    background: #666;
+    color: #fff;
+  }
+</style>
+<div id="main" style="margin: 50px auto;width:80%">
+  <textarea id="text"></textarea>
+  <ul id="list"></ul>
+  <script>
+
+    /**
+ * cursorPosition Object
+ *
+ * Created by Blank Zheng on 2010/11/12.
+ * Copyright (c) 2010 PlanABC.net. All rights reserved.
+ * 
+ * The copyrights embodied in the content of this file are licensed under the BSD (revised) open source license.
+ */
+
+    var cursorPosition = {
+      get: function(textarea) {
+        var rangeData = { text: "", start: 0, end: 0 };
+
+        if (textarea.setSelectionRange) { // W3C	
+          textarea.focus();
+          rangeData.start = textarea.selectionStart;
+          rangeData.end = textarea.selectionEnd;
+          rangeData.text = (rangeData.start != rangeData.end) ? textarea.value.substring(rangeData.start, rangeData.end) : "";
+        } else if (document.selection) { // IE
+          textarea.focus();
+          var i,
+            oS = document.selection.createRange(),
+            // Don't: oR = textarea.createTextRange()
+            oR = document.body.createTextRange();
+          oR.moveToElementText(textarea);
+
+          rangeData.text = oS.text;
+          rangeData.bookmark = oS.getBookmark();
+
+          // object.moveStart(sUnit [, iCount]) 
+          // Return Value: Integer that returns the number of units moved.
+          for (i = 0; oR.compareEndPoints('StartToStart', oS) < 0 && oS.moveStart("character", -1) !== 0; i++) {
+            // Why? You can alert(textarea.value.length)
+            if (textarea.value.charAt(i) == '\r') {
+              i++;
+            }
+          }
+          rangeData.start = i;
+          rangeData.end = rangeData.text.length + rangeData.start;
+        }
+
+        return rangeData;
+      },
+
+      set: function(textarea, rangeData) {
+        var oR, start, end;
+        if (!rangeData) {
+          alert("You must get cursor position first.")
+        }
+        textarea.focus();
+        if (textarea.setSelectionRange) { // W3C
+          textarea.setSelectionRange(rangeData.start, rangeData.end);
+        } else if (textarea.createTextRange) { // IE
+          oR = textarea.createTextRange();
+
+          // Fixbug : ues moveToBookmark()
+          // In IE, if cursor position at the end of textarea, the set function don't work
+          if (textarea.value.length === rangeData.start) {
+            //alert('hello')
+            oR.collapse(false);
+            oR.select();
+          } else {
+            oR.moveToBookmark(rangeData.bookmark);
+            oR.select();
+          }
+        }
+      },
+
+      add: function(textarea, rangeData, text) {
+        var oValue, nValue, oR, sR, nStart, nEnd, st;
+        this.set(textarea, rangeData);
+
+        if (textarea.setSelectionRange) { // W3C
+          oValue = textarea.value;
+          nValue = oValue.substring(0, rangeData.start) + text + oValue.substring(rangeData.end);
+          nStart = nEnd = rangeData.start + text.length;
+          st = textarea.scrollTop;
+          textarea.value = nValue;
+          // Fixbug:
+          // After textarea.values = nValue, scrollTop value to 0
+          if (textarea.scrollTop != st) {
+            textarea.scrollTop = st;
+          }
+          textarea.setSelectionRange(nStart, nEnd);
+        } else if (textarea.createTextRange) { // IE
+          sR = document.selection.createRange();
+          sR.text = text;
+          sR.setEndPoint('StartToEnd', sR);
+          sR.select();
+        }
+      }
+    }
+
+    // var tx = document.getElementById("test"),
+    //   re = document.getElementById("result"),
+    //   pos;
+
+    // document.getElementById("get").onclick = function() {
+    //   //alert(tx.value.length);
+    //   pos = cursorPosition.get(tx);
+    //   re.innerHTML = ("<strong>Range :</strong> (" + pos.start + ", " + pos.end + ")<br /><strong>Text :</strong> " + (!pos.text ? '//--' : pos.text));
+    // }
+
+    // document.getElementById("set").onclick = function() {
+    //   cursorPosition.set(tx, pos);
+    // }
+
+    // document.getElementById("add").onclick = function() {
+    //   cursorPosition.add(tx, pos, input = prompt("你想插入替换的文本：", ""));
+    // }
+
+    var $textarea = document.querySelector('#text');
+    var textarea_styles = window.getComputedStyle($textarea);
+
+    var $area = document.createElement('div');
+    $area.style.width = textarea_styles.width;
+    $area.style.position = 'absolute';
+    $area.style.left = parseInt(textarea_styles['border-left']) + $textarea.offsetLeft + 'px';
+    $area.style.top = parseInt(textarea_styles['border-top']) + $textarea.offsetTop + 'px';
+
+    var $area_p = document.createElement('p');
+    $area_p.style.position = 'absolute';
+    $area_p.style.maxWidth = $textarea.clientWidth + 'px';
+    $area_p.style.maxHeight = $textarea.clientHeight + 'px';
+    $area_p.style.left = '0';
+    $area_p.style.top = '0';
+    $area_p.style.background = '#eee';
+    $area_p.style.wordBreak = 'break-all';
+    $area_p.style.fontSize = textarea_styles['font-size'];
+    $area_p.style.fontFamily = textarea_styles['font-family'];
+    $area_p.style.lineHeight = textarea_styles['line-height'];
+
+    $area_p.style.visibility = 'hidden';
+    $area_p.style.pointerEvents = 'none';
+
+    $area.appendChild($area_p);
+    document.body.appendChild($area);
+
+    var $showlist = document.querySelector('#list');
+
+    function isShowList() {
+      var display = window.getComputedStyle($showlist).display;
+      return display === 'block';
+    }
+
+    function arrow(code) {
+      var $lis = $showlist.querySelectorAll('li');
+      var curr = $showlist.dataset.curr >> 0;
+
+      switch (code) {
+        case 38: // up
+          curr -= 1;
+          break;
+        case 40: // up
+          curr += 1;
+          break;
+      }
+      curr %= $lis.length;
+
+      [].slice.call($lis).forEach(function($li, idx) {
+        if (idx === curr) {
+          $li.classList.add('curr');
+        } else {
+          $li.classList.remove('curr');
+        }
+      });
+
+      $showlist.dataset.curr = curr;
+    }
+
+    function enter(code) {
+      var $item = $showlist.querySelector('li.curr');
+      if ($item) {
+        var data = JSON.parse($showlist.dataset.textarea);
+        var text = $item.innerText;
+        var left = data.start + text;
+        var point = left.length + 1;
+        $textarea.value = `${left} ${data.end}`;
+        cursorPosition.set($textarea, { start: point, end: point });
+      }
+      $showlist.style.display = 'none';
+    }
+
+    $textarea.addEventListener('keydown', function(event) {
+      if (isShowList() && [13, 37, 38, 39, 40].indexOf(event.which) !== -1) {
+        event.preventDefault();
+        event.which === 13 && enter(); // enter
+        [38, 40].indexOf(event.which) !== -1 && arrow(event.which); // arrow
+      }
+    }, true);
+
+    $textarea.oninput = function(event) {
+      if (event.data === '@') {
+        var point = cursorPosition.get($textarea);
+        if (point.start !== point.end) return;
+        var value = ($textarea.value || '').toString();
+        var start = value.substring(0, point.start);
+        var end = value.substring(point.end, value.length);
+        $showlist.dataset.textarea = JSON.stringify({
+          start: start,
+          end: end,
+          point: point.start
+        });
+
+        var lines = start.split('\n');
+        var last = lines.pop().replace(/ /g, '&nbsp;');
+        lines = lines.map(function(line) {
+          return '&nbsp;'
+        });
+        lines.push(last);
+        $area_p.innerHTML = lines.join('<br>');
+        $showlist.innerHTML = '';
+        $showlist.dataset.curr = 0;
+        ['11111', '2222', '33333'].slice(0, 10).forEach(function(item, index) {
+          var $li = document.createElement('li');
+          $li.innerText = item;
+          index === 0 && $li.classList.add('curr');
+          $showlist.appendChild($li);
+        });
+        $showlist.style.left = -16 + $textarea.offsetLeft + $area_p.clientWidth + 'px';
+        $showlist.style.top = 5 + $textarea.offsetTop + $area_p.clientHeight + 'px';
+
+        $showlist.style.display = 'block';
+      }
+
+      if (/\s/.test(event.data) && isShowList()) {
+        $showlist.style.display = 'none';
+      }
+    }
+  </script>
+</div>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<!--#insert file="../common/-end.html" -->

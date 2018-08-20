@@ -1,0 +1,57 @@
+<!--#insert file="../common/-intro.html" -->
+<title>Number Format</title>
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<fieldset>
+    <legend>mobile</legend>
+    <span id="ans11"></span><br>
+    <span id="ans12"></span><br>
+    <span id="ans13"></span><br>
+</fieldset>
+<fieldset>
+    <legend>bank card</legend>
+    <span id="ans2"></span>
+</fieldset>
+<fieldset>
+    <legend>id card</legend>
+    <span id="ans3"></span>
+</fieldset>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+    function numberFormat(number, hidden_char, begin_visible_size, end_visible_size, gap_size_arr, gap_char){
+        number = '' + number;
+        hidden_char = hidden_char || '*';
+        begin_visible_size = begin_visible_size || 4;
+        end_visible_size = end_visible_size || 4;
+        gap_size_arr = gap_size_arr || [4];
+        if (Object.prototype.toString.call(gap_size_arr) !== '[object Array]') {
+            gap_size_arr = [gap_size_arr];
+        }
+        gap_char = gap_char || ' ';
+        var length = number.length;
+        var is_no_hidden = hidden_char === '$&';
+        var gap_size = 0;
+        var counts = -1;
+        return number.replace(/\D/g, '').replace(/\d/g, function(v, i){
+            counts++;
+            var temp = 0;
+            counts === 0 && (temp = gap_size_arr.shift());
+            gap_size = temp || gap_size;
+            return ((is_no_hidden ||
+                     i < begin_visible_size ||
+                     i >= length - end_visible_size) ? v : hidden_char) + 
+                ((i !== length - 1 && (counts + 1) === gap_size && (counts = -1)) ? gap_char : '');
+        });
+    };
+
+    document.getElementById('ans11').innerHTML = numberFormat('13612345678', 0, 3, 0, [3, 4]);
+    document.getElementById('ans12').innerHTML = numberFormat('13612345678', '$&', 3, 0, [3, 4], ' - ');
+    document.getElementById('ans13').innerHTML = numberFormat('13612345678', '$&', 3, 0, [3, 3, 5], ' - ');
+
+    document.getElementById('ans2').innerHTML = numberFormat('62221234567812348123');
+    
+    document.getElementById('ans3').innerHTML = numberFormat('410824199001011922', '$&', 0, 0, [6, 8, 4]);
+
+</script>
+<!--#insert file="../common/-end.html" -->

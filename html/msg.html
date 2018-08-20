@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/base.css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+<style>
+    html, body {
+        height: 100%;
+    }
+    * {
+        box-sizing: border-box;
+    }
+    #main {
+        padding-bottom: 80px;
+    }
+    #footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #ccc;
+        border-top: 1px solid #999;
+        padding: 5px;
+        overflow: hidden;
+    }
+    #footer span,
+    #footer input {
+        position: absolute;
+        bottom: 8px;
+    }
+    #footer span {
+        margin-bottom: 3px;
+        color: #eee;
+        left: 5px;
+        width: 24px;
+        height: 24px;
+        font-size: 24px;
+        line-height: 18px;
+        border-radius: 24px;
+        text-align: center;
+        background: #188eee;
+        border: 1px solid #188eee;
+    }
+    #footer input {
+        color: #eee;
+        right: 12px;
+        font-size: 14px;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 7px;
+        background: #188eee;
+        border-radius: 3px;
+        border: 1px solid #188eee;
+    }
+    #footer textarea {
+        width: 68%;
+        outline: 0;
+        display: block;
+        margin: 0 24% 0 8%;
+        padding: 4px 5px 0;
+        border-radius: 5px;
+        resize: none;
+    }
+    footer {
+        display: none;
+    }
+</style>
+<section id="main"></section>
+<section id="footer">
+    <span>+</span>
+    <textarea id="text"></textarea>
+    <input type="submit" value="SUBMIT">
+</section>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+<script>
+typeof rewrite_console === 'function' && rewrite_console(main);
+text.oninput = function() {
+    console.log(text.value);
+};
+</script>
+</body></html>

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>href</title>
+</head>
+<body>
+    <a id="xx" href="/xx">xx</a>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script>
+        $('#xx').each(function(){
+            console.log(this.getAttribute('href'), this.href, $(this).attr('href'), this.getAttribute('href') === this.href, this.getAttribute('href') === $(this).attr('href'));
+            console.log(this.getAttribute('target'), this.target, $(this).attr('target'), this.getAttribute('target') === this.target, this.getAttribute('target') === $(this).attr('target'));
+        });
+    </script>
+</body>
+</html>

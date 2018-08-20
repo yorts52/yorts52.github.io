@@ -1,0 +1,115 @@
+<!--#insert file="../common/-intro.html" -->
+<title>Random</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<style>
+  #view {
+    border-bottom: 1px solid #000;
+    height: 400px;
+    width: 1287px;
+    margin: 0 auto 300px;
+    position: relative;
+    padding: 0 5px;
+  }
+
+  #view span {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #93ec93;
+    width: 10px;
+  }
+  
+  .op {
+    text-align: center;
+  }
+  .op * {
+    font-size: 20px;
+    padding: 0 5px;
+    height: 32px;
+    box-sizing: border-box;
+  }
+  
+  footer {
+    display: none;
+  }
+</style>
+<div id="view">
+</div>
+<div class="op">
+  <input id="timer" placeholder="300" value="300">
+  <button id="btn">暂停</button>
+</div>
+<script>
+  const list = [];
+  const COUNTS = 100;
+
+  let counts = COUNTS;
+  let timeout = 300;
+  let status = '';
+  let debt = location.hash.indexOf('debt') !== -1;
+
+  while (counts--) list.push(COUNTS);
+  
+  let render_lock = false;
+  const render = (list) => {
+    if (render_lock) return;
+    render_lock = true;
+    setTimeout(() => {
+      render_lock = false;
+    }, Math.max(100, timeout));
+    list = list.slice(0).sort((x, y) => x - y);
+    let html = '';
+    let index = 0;
+    while (list.length) {
+      let item = list.shift();
+      let position = '';
+      if (item < 0) {
+        position = `margin-bottom:${item - 1}px;`
+      }
+      html += `<span style="left:${13 * index}px;height:${Math.abs(item)}px;${position}"></span>`;
+      index++;
+    }
+    view.innerHTML = html;
+  };
+
+  const random = (index) => {
+    let r = (Math.random() * 1e6 >> 0) % COUNTS;
+    if (r === index) {
+      return random(index);
+    }
+    return r;
+  }
+
+  const run = () => {
+    if (status === 'pause') return;
+    list.forEach((value, index) => {
+      if (!debt && value <= 0) return;
+      let rid = random(index);
+      list[rid] = list[rid] + 1;
+      list[index] = list[index] - 1;
+    });
+    render(list);
+    setTimeout(run, timeout);
+  }
+
+  btn.onclick = function() {
+    if (status) {
+      status = '';
+      btn.innerText = '暂停';
+      timeout = parseInt(timer.value, 10) || timeout;
+      run();
+    } else {
+      status = 'pause';
+      btn.innerText = '继续';
+    }
+  }
+
+  run();
+
+</script>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<!--#insert file="../common/-end.html" -->

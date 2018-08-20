@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>不好玩</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/base.css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+<div id="state">世界这么大, 为什么要点后退?</div>
+<button id="click_me">click me</button>
+<a href="./href.html">滚</a>
+<div id="main"></div>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+<script>
+    typeof rewrite_console === 'function' && rewrite_console(main);
+
+    var state = 'start';
+    
+    click_me.onclick = function(){
+        click_me.innerText = '点你妹啊!!!'
+        state = 'clicked';
+        location.hash = 'clicked';
+    };
+
+    setInterval(function(){
+        console.log(state, location.hash);
+    }, 3000);
+
+</script>
+</body></html>

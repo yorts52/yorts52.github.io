@@ -1,0 +1,15 @@
+<!--#insert file="../common/-intro.html" -->
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<input id="ipt" type="text">
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+    $('#ipt').on('keyup paste input propertychange', function(){
+        console.log(this.value);
+    });
+</script>
+<!--#insert file="../common/-end.html" -->

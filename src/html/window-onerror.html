@@ -1,0 +1,28 @@
+<!--#insert file="../common/-intro.html" -->
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<div id="main"></div>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+    typeof rewrite_console === 'function' && rewrite_console(main);
+
+    window.onerror = function(errorMsg, url, line, column, errorObject) {
+        
+        console.log('Error: ', errorMsg, url, line, column, errorObject);
+
+        if (errorObject) {
+            console.log(typeof errorObject.stack);
+            console.log('error.stack support');
+        } else {
+            console.log('typeof errorObject: ', typeof errorObject);
+            console.log('error.stack not support');
+        }
+    };
+
+    error();
+</script>
+<!--#insert file="../common/-end.html" -->

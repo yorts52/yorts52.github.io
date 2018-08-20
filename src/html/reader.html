@@ -1,0 +1,116 @@
+<!--#insert file="../common/-intro.html" -->
+<title>Reader</title>
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<style>
+    body {
+        color: #fff;
+        background: #123;
+    }
+    #result {
+        font-size: 16px;
+        line-height: 1.5em;
+    }
+    footer {
+        display: none;
+    }
+</style>
+<input type="file" id="file" onchange="readAsText()">
+<div id="result" name="result"></div>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+
+// 阅读器渲染
+var index = 0;
+var rollback = 150;
+var text_length = 0;
+var stop_reader = false;
+var timeout = parseInt(B.query('speed'), 10) || 100;
+var reader_history = parseInt(localStorage.reader_history, 10) || 0;
+var hash_history = parseInt(B.hash('h'), 10) || 0;
+
+reader_history = Math.max(reader_history, hash_history);
+reader_history = reader_history > rollback ? reader_history - rollback : 0;
+
+var reader = function(text) {
+    text = text.replace(/\s*\n+\s*/g, "\x01").replace(/\s+/g, "");
+    text_length = text.length;
+    var start = index = reader_history;
+    var lines = [];
+    var read = function() {
+        setTimeout(function() {
+            if (stop_reader) return read();
+            var last = ++index;
+            if (/[。；！？!?]/.test(text.charAt(last))) {
+                if (/[」”】｝）")\]]/.test(text.charAt(last + 1))) {
+                    last = ++index;
+                }
+                lines.push(last);
+            }
+            lines.length >= 5 && (start = lines.shift() + 1);
+            result.innerHTML = text.substring(start, last)
+                .replace(/\u0001/g, "<br>")
+                .replace(/([。；！？!?][」”】｝）")\]]?)/g, "$1<br>");
+            last < text_length && read();
+        }, stop_reader ? 1000 : timeout);
+    };
+    read();
+};
+
+function readAsText(){
+    var fr = new FileReader();
+    fr.readAsText(file.files[0]);
+    fr.onload = function() {
+        file.style.display = "none";
+        reader(this.result);
+    };
+}
+
+function stop(){
+    stop_reader = !stop_reader;
+    var msg = [index, (index * 100 / text_length).toFixed(2) + "%"].join(", ");
+    if (stop_reader) {
+        T.showTipsMsg(msg);
+        B.hash('h', index);
+        localStorage.reader_history = index;
+    } else {
+        T.showTipsMsg(msg, 1000);
+    }
+}
+
+document.addEventListener("keydown", function(event) {
+    var code = event.which;
+    if (code === 13 || code === 32) { // Enter Space
+        event.preventDefault();
+        stop();
+    }
+    if (code === 38) { // UP
+        timeout -= 10;
+    }
+    if (code === 40) { // DOWN
+        timeout += 10;
+    }
+});
+
+var touch_time = +new Date;
+
+var mobile_stop = function(){
+    +new Date - touch_time < 500 && stop();
+};
+
+document.ontouchstart = function(){
+    touch_time > 0 && mobile_stop();
+    touch_time = +new Date;
+    window.plus && plus.device.setWakelock(true); // 屏幕常亮
+};
+
+// var touchend = document.ontouchend = mobile_stop;
+// var touch_timer;  
+// document.ontouchmove = function(e){
+//     clearInterval(touch_timer);
+//     touch_timer = setTimeout(touchend, 200);
+// };
+
+</script>
+<!--#insert file="../common/-end.html" -->

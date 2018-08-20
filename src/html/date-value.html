@@ -1,0 +1,47 @@
+<!--#insert file="../common/-intro.html" -->
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<div id="main"></div>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+// output
+typeof rewrite_console === 'function' && rewrite_console(main);
+
+var date_valueOf = Date.prototype.valueOf;
+Date.prototype.valueOf = function(){
+    console.log('Date valueOf run at:',
+        ((Date.prototype.valueOf.caller || '').toString().match(/function\s*(\w+)/) || [])[0] || 'null');
+    return date_valueOf.apply(this, arguments);
+};
+
+var date_getTime = Date.prototype.getTime;
+Date.prototype.getTime = function(){
+    console.log('Date getTime run at:',
+        ((Date.prototype.getTime.caller || '').toString().match(/function\s*(\w+)/) || [])[0] || 'null');
+    return date_getTime.apply(this, arguments);
+};
+
+var date_parse = Date.parse;
+Date.parse = function(){
+    console.log('Date par(se run at:',
+        ((Date.parse.caller || '').toString().match(/function\s*(\w+)/) || [])[0] || 'null');
+    return date_parse.apply(this, arguments);
+};
+
+function demo(){
+    var date = new Date();
+    console.log('getTime: ', date.getTime());
+    console.log('valueOf: ', date.valueOf());
+    console.log('Number: ', Number(date));
+    console.log('+: ', +date);
+    console.log('parse: ', Date.parse(date));
+}
+
+demo();
+
+</script>
+<!--#insert file="../common/-end.html" -->

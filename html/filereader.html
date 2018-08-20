@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>FileReader</title>
+<link rel="stylesheet" href="/css/base.css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+<p>
+    <label>请选择一个文件：</label>
+    <input type="file" id="file" />
+    <input type="button" value="读取图像" onclick="readAsDataURL()" />
+    <input type="button" value="读取二进制数据" onclick="readAsBinaryString()" />
+    <input type="button" value="读取文本文件" onclick="readAsText()" />
+    <textarea></textarea>
+</p>
+<div id="result" name="result"></div>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+<script type="text/javascript">
+var result=document.getElementById("result");
+var file=document.getElementById("file");
+
+// 判断浏览器是否支持FileReader接口
+if(typeof FileReader == 'undefined'){
+    result.InnerHTML="<p>你的浏览器不支持FileReader接口！</p>";
+    // 使选择控件不可操作
+    file.setAttribute("disabled","disabled");
+}
+
+function readAsDataURL(){
+    // 检验是否为图像文件
+    var file = document.getElementById("file").files[0];
+    if(!/image\/\w+/.test(file.type)){
+        alert("看清楚，这个需要图片！");
+        return false;
+    }
+    var reader = new FileReader();
+    // 将文件以Data URL形式读入页面
+    reader.readAsDataURL(file);
+    reader.onload=function(e){
+        var result=document.getElementById("result");
+        // 显示文件
+        result.innerHTML='<img src="' + this.result +'" alt="" />';
+    }
+}
+
+function readAsBinaryString(){
+    var file = document.getElementById("file").files[0];
+    var reader = new FileReader();
+    // 将文件以二进制形式读入页面
+    reader.readAsBinaryString(file);
+    reader.onload=function(f){
+        var result=document.getElementById("result");
+        // 显示文件
+        result.innerHTML=this.result;
+    }
+}
+
+function readAsText(){
+    var file = document.getElementById("file").files[0];
+    var reader = new FileReader();
+    // 将文件以文本形式读入页面
+    reader.readAsText(file);
+    reader.onload=function(f){
+        var result=document.getElementById("result");
+        // 显示文件
+        result.innerHTML=this.result;
+    }
+}
+
+window.addEventListener("paste", function(event) {
+    console.log("parse...");
+    // 支持clipboardData浏览器
+    if (event) {
+        console.log(event);
+        var clipboardData = (event.originalEvent || event).clipboardData || {};
+        var items = clipboardData.items || [];
+        var item = items[0];
+        if ( item && item.kind === 'file' && item.type.match(/^image\//i)){
+            var blob = item.getAsFile();
+            var reader = new FileReader();
+            reader.onload = function(){
+                var result=document.getElementById("result");
+                // 显示文件
+                result.innerHTML='paste: <img src="' + this.result +'" alt="" />';
+
+            }
+            reader.readAsDataURL(blob);
+        }
+    }
+});
+</script>
+</body></html>

@@ -1,0 +1,14 @@
+{
+  "name": "kael",
+  "version": "0.0.1",
+  "node_version": ">= 0.8.0",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.10",
+    "gulp-htmlincluder": "^0.1.0",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-uglify": "^2.0.0",
+    "needle": "^1.4.1"
+  }
+}

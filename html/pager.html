@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/base.css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+
+<script>
+  let offset = 55;
+  let count = 100;
+  let limit = 10;
+  let total = Math.ceil(count / limit);
+  let curr = Math.floor(offset / limit);
+  let start = Math.max(Math.min(curr, total - 3) - 2, 0);
+  let pages = Array.from(new Array(total)).map((t, i) => i).slice(start, start + 5);
+
+  let $pager = document.createElement('pager');
+  pages.forEach(page => {
+    let $link = document.createElement('a');
+    $link.href = `#page=${page}`;
+    $link.innerText = page;
+    $pager.appendChild($link);
+  });
+  document.body.appendChild($pager);
+</script>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+</body></html>

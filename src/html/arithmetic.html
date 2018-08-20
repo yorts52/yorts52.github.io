@@ -1,0 +1,150 @@
+<!--#insert file="../common/-intro.html" -->
+<title>arithmetic</title>
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<input type="text" id="ipt" style="width:400px">
+<input type="button" id="btn" value="计算">
+<div>eval: <span id="eval"></span></div>
+<div>calc: <span id="calc"></span></div>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+	// var str = "(-10 + (5 * 5)) * ( 20 - -10)";
+	// console.log("eval: ", eval(str));
+
+	var calc = function(arr) {
+		console.log("calc:", arr);
+		var index = 0;
+		var res = 0;
+		if (arr[0] === "-") {
+			arr.splice(0, 2, 0 - arr[1]);
+		}
+		while(index < arr.length) {
+			if (/^[-+*%\/]$/.test(arr[index]) && arr[index + 1] === "-") {
+				arr.splice(index + 1, 2, 0 - arr[index + 2]);
+			}
+			index++;
+		}
+		index = 0;
+		while(index < arr.length) {
+			if (!/^-?\d+$/.test(arr[index].toString().replace(".", ""))) {
+				return "SyntaxError";
+			}
+			index += 2;
+		}
+		index = 1;
+		while(index < arr.length) {
+			if (!/^[-+*%\/]$/.test(arr[index])) {
+				return "SyntaxError";
+			}
+			index += 2;
+		}
+		index = 0;
+		while(index < arr.length) {
+			switch(arr[index]) {
+				case "*":
+					res = arr[index - 1] * arr[index + 1];
+					arr.splice(index - 1, 3, res);
+					index--;
+					break;
+				case "/":
+					res = arr[index - 1] / arr[index + 1];
+					arr.splice(index - 1, 3, res);
+					index--;
+					break;
+				case "%":
+					res = arr[index - 1] % arr[index + 1];
+					arr.splice(index - 1, 3, res);
+					index--;
+					break;
+			}
+			index++;
+		}
+		index = 0;
+		while(arr.length > 2) {
+			switch(arr[index]) {
+				case "+":
+					res = arr[index - 1] + arr[index + 1];
+					arr.splice(index - 1, 3, res);
+					index--;
+					break;
+				case "-":
+					res = arr[index - 1] - arr[index + 1];
+					arr.splice(index - 1, 3, res);
+					index--;
+					break;
+			}
+			index++;
+		}
+		return arr[0];
+	};
+
+	var _eval = function(str){
+		var ans = 0;
+		var symbol = [];
+		var num_symbol = [];
+		var temp_symbol = [];
+		var isnum = false;
+		for(var i = 0, l = str.length; i <= l; i++) {
+			var ch = str.charAt(i);
+			var temp = "";
+			if (/\s/.test(ch)) {
+				continue;
+			}
+			if (/\d/.test(ch) || ch === ".") {
+				isnum = true;
+				num_symbol.push(ch);
+				// console.log("num_symbol", num_symbol)
+			} else {
+				isnum = false;
+				if (num_symbol.length > 0) {
+					temp = num_symbol.join("");
+					if (/^\d+$/.test(temp.replace(".", ""))) {
+						symbol.push(parseFloat(temp));
+					} else {
+						return "SyntaxError";
+					}
+					num_symbol = [];
+				}
+				if (/[-+=*%\/\(]/.test(ch)) {
+					symbol.push(ch);
+				} else if (ch === ")") {
+					// console.log("symbol: ", symbol);
+					while(symbol.length > 0) {
+						var temp = symbol.pop();
+						if (temp !== "(") {
+							temp_symbol.push(temp);
+						} else {
+							break;
+						}
+					}
+					if (temp !== "(") {
+						return "SyntaxError";
+					}
+					temp_symbol.reverse();
+					temp = calc(temp_symbol);
+					if (isNaN(temp)) {
+						return temp;
+					} else {
+						symbol.push(temp);
+					}
+					temp_symbol = [];
+				}
+				// console.log("symbol", symbol)
+			}
+		}
+		return calc(symbol);
+	}
+	// console.log("_eval: ", _eval(str));
+	var $ipt = document.getElementById("ipt");
+	var $btn = document.getElementById("btn");
+	var $eva = document.getElementById("eval");
+	var $cal = document.getElementById("calc");
+
+	$btn.onclick = function(){
+		var val = $ipt.value;
+		$eva.innerHTML = eval(val);
+		$cal.innerHTML = _eval(val);
+	}
+</script>
+<!--#insert file="../common/-end.html" -->

@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title></title>
+<meta name="keywords" content="qb">
+<meta name="description" content="qb">
+<link rel="stylesheet" href="/css/base.css">
+<style>
+	span {
+		width: 320px;
+		margin: 10px;
+		padding: 10px;
+		font-size: 36px;
+		line-height: 1.5;
+		text-align: center;
+		display: inline-block;
+	}
+</style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+<script>
+	var CM = 256 * 256 * 256 - 1;
+
+	var number_2_color = function(number) {
+		var str = '000000' + parseInt(number, 10).toString(16);
+		return '#' + str.substring(str.length - 6);
+	};
+
+	var invert_color = function(number) {
+		return number_2_color(CM - number);
+	};
+
+	var insert = function(number) {
+		var bg_color = number_2_color(number);
+		var txt_color = invert_color(number);
+
+		var span = document.createElement('span');
+		span.style.color = txt_color;
+		span.style.backgroundColor = bg_color;
+		span.innerText = [bg_color, txt_color].join('|').toUpperCase();
+		document.body.appendChild(span);
+	};
+
+	for (var i = 0, l = CM; i < l; insert(i), i += 8192);
+
+</script>
+</body></html>

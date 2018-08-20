@@ -1,0 +1,29 @@
+<!--#insert file="../common/-intro.html" -->
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<section id="main"></section>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+	var getDateNextMonth = function (month, date) {
+		date = date || new Date;
+		var tmp = date.getDate();
+		date.setMonth(date.getMonth() + month);
+		return tmp === date.getDate() ? date : new Date(date.setDate(1) - 8.64e7);
+	};
+
+	var output = [];
+
+	var day = 32;
+	while(--day) output.unshift('2015/8/' + day + ' next 6 month: ' + getDateNextMonth(6, new Date('2015/8/' + day)));
+
+	var MAX = 24;
+	var index = 0;
+	while(index++ < MAX) output.push('today next ' + index + ' month: ' + getDateNextMonth(index));
+
+	main.innerHTML = output.join('<br />');
+</script>
+<!--#insert file="../common/-end.html" -->

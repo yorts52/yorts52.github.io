@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>Random</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/base.css">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?50710b865da4937415e9f1271f9ad7ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<header></header>
+<style>
+  #view {
+    border-bottom: 1px solid #000;
+    height: 400px;
+    width: 1287px;
+    margin: 0 auto 300px;
+    position: relative;
+    padding: 0 5px;
+  }
+
+  #view span {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #93ec93;
+    width: 10px;
+  }
+  
+  .op {
+    text-align: center;
+  }
+  .op * {
+    font-size: 20px;
+    padding: 0 5px;
+    height: 32px;
+    box-sizing: border-box;
+  }
+  
+  footer {
+    display: none;
+  }
+</style>
+<div id="view">
+</div>
+<div class="op">
+  <input id="timer" placeholder="300" value="300">
+  <button id="btn">暂停</button>
+</div>
+<script>
+  const list = [];
+  const COUNTS = 100;
+
+  let counts = COUNTS;
+  let timeout = 300;
+  let status = '';
+  let debt = location.hash.indexOf('debt') !== -1;
+
+  while (counts--) list.push(COUNTS);
+  
+  let render_lock = false;
+  const render = (list) => {
+    if (render_lock) return;
+    render_lock = true;
+    setTimeout(() => {
+      render_lock = false;
+    }, Math.max(100, timeout));
+    list = list.slice(0).sort((x, y) => x - y);
+    let html = '';
+    let index = 0;
+    while (list.length) {
+      let item = list.shift();
+      let position = '';
+      if (item < 0) {
+        position = `margin-bottom:${item - 1}px;`
+      }
+      html += `<span style="left:${13 * index}px;height:${Math.abs(item)}px;${position}"></span>`;
+      index++;
+    }
+    view.innerHTML = html;
+  };
+
+  const random = (index) => {
+    let r = (Math.random() * 1e6 >> 0) % COUNTS;
+    if (r === index) {
+      return random(index);
+    }
+    return r;
+  }
+
+  const run = () => {
+    if (status === 'pause') return;
+    list.forEach((value, index) => {
+      if (!debt && value <= 0) return;
+      let rid = random(index);
+      list[rid] = list[rid] + 1;
+      list[index] = list[index] - 1;
+    });
+    render(list);
+    setTimeout(run, timeout);
+  }
+
+  btn.onclick = function() {
+    if (status) {
+      status = '';
+      btn.innerText = '暂停';
+      timeout = parseInt(timer.value, 10) || timeout;
+      run();
+    } else {
+      status = 'pause';
+      btn.innerText = '继续';
+    }
+  }
+
+  run();
+
+</script>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/js/lib/zepto.min.js"></script>
+<script src="/js/lib/wechat.js"></script>
+<script src="/js/common/tools.js"></script>
+<script src="/js/common/bom.js"></script>
+<script src="/js/common/console.js"></script>
+</body></html>

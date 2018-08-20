@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>tdate</title>
+  <script src="//cdn.gfzq.cn/trade-date/index.js"></script>
+</head>
+
+<body>
+  <ol id="main"></ol>
+  <script>
+    var TD = new TradeDate('//cdn.gfzq.cn/trade-date/trade.date.js');
+    var T = '20170908';
+    var n = 30;
+    for (let d = -1 * n; d <= n; d++) {
+      TD.trade_date_next(T, d, function(date) {
+        main.innerHTML = main.innerHTML + `<li>${T} T${d < 0 ? '' : '+'}${d}: ${date}</li>`;
+      });
+    }
+  </script>
+</body>
+
+</html>

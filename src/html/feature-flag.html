@@ -1,0 +1,24 @@
+<!--#insert file="../common/-intro.html" -->
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+<div id="main"></div>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+(function (times) {
+  var counts = 0, timer = 0;
+  document.onclick = function () {
+    timer && clearTimeout(timer);
+    if (++counts >= times) {
+      alert('你深井冰啊');
+    }
+    timer = setTimeout(function () {
+      counts = 0;
+    }, 500);
+  }
+})(10);
+</script>
+<!--#insert file="../common/-end.html" -->

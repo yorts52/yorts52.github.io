@@ -1,0 +1,28 @@
+<!--#insert file="../common/-intro.html" -->
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../common/-header.html" -->
+
+<script>
+  let offset = 55;
+  let count = 100;
+  let limit = 10;
+  let total = Math.ceil(count / limit);
+  let curr = Math.floor(offset / limit);
+  let start = Math.max(Math.min(curr, total - 3) - 2, 0);
+  let pages = Array.from(new Array(total)).map((t, i) => i).slice(start, start + 5);
+
+  let $pager = document.createElement('pager');
+  pages.forEach(page => {
+    let $link = document.createElement('a');
+    $link.href = `#page=${page}`;
+    $link.innerText = page;
+    $pager.appendChild($link);
+  });
+  document.body.appendChild($pager);
+</script>
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<!--#insert file="../common/-end.html" -->

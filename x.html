@@ -1,0 +1,58 @@
+<style>h1{font-size:80px;text-align:center;margin-top:-60px;position:fixed;left:0;right:0;top:50%;}</style>
+<h1 id="result"></h1>
+<script>
+var list = [];
+var data = {
+  "黄焖鸡(近)": 20,
+  "黄焖鸡(远)": 15,
+  "妈妈手艺": 10,
+  "小米姑娘": 10,
+  "家乐园": 10,
+  "蒸菜": 10,
+  "渔粉": 15,
+  "龙妈米粉": 15,
+};
+
+Object.keys(data).forEach(function(name) {
+  var times = data[name];
+  while (times--) list.push(name);
+});
+
+var times = 0;
+var timer = 0;
+
+function update() {
+  clearTimeout(timer);
+  timer = setTimeout(function() {
+    result.innerText = '' + (++times) + '. ' + list[Math.random() * list.length >> 0];
+  }, 300);
+}
+
+var speed = 25;
+var now = {};
+var last = {
+  x: 0,
+  y: 0,
+  z: 0,
+};
+
+window.addEventListener('devicemotion', function(event) {
+  var position = event.accelerationIncludingGravity;
+  now = {
+    x: position.x,
+    y: position.y,
+    z: position.z,
+  };
+  if (
+    Math.abs(now.x - last.x) > speed ||
+    Math.abs(now.y - last.y) > speed ||
+    Math.abs(now.z - last.z) > speed ||
+    false
+  ) {
+    update();
+  }
+  last = now;
+}, false);
+
+update();
+</script>

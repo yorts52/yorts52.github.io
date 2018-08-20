@@ -1,0 +1,46 @@
+<!--#insert file="../common/-intro.html" -->
+<title></title>
+<meta name="keywords" content="qb">
+<meta name="description" content="qb">
+<!--#insert file="../common/-outro.html" -->
+<style>
+	span {
+		width: 320px;
+		margin: 10px;
+		padding: 10px;
+		font-size: 36px;
+		line-height: 1.5;
+		text-align: center;
+		display: inline-block;
+	}
+</style>
+<!--#insert file="../common/-header.html" -->
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+	var CM = 256 * 256 * 256 - 1;
+
+	var number_2_color = function(number) {
+		var str = '000000' + parseInt(number, 10).toString(16);
+		return '#' + str.substring(str.length - 6);
+	};
+
+	var invert_color = function(number) {
+		return number_2_color(CM - number);
+	};
+
+	var insert = function(number) {
+		var bg_color = number_2_color(number);
+		var txt_color = invert_color(number);
+
+		var span = document.createElement('span');
+		span.style.color = txt_color;
+		span.style.backgroundColor = bg_color;
+		span.innerText = [bg_color, txt_color].join('|').toUpperCase();
+		document.body.appendChild(span);
+	};
+
+	for (var i = 0, l = CM; i < l; insert(i), i += 8192);
+
+</script>
+<!--#insert file="../common/-end.html" -->
