@@ -1,0 +1,121 @@
+<!--#insert file="../common/-intro.html" -->
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../common/-outro.html" -->
+<style>
+  * {
+    box-sizing: border-box;
+    font-size: 20px;
+  }
+
+  .line {
+    padding: 20px;
+  }
+
+  label {
+    display: inline-block;
+    width: 120px;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 3px 0 3px 6px;
+    width: 360px;
+  }
+
+  textarea {
+    width: 487px;
+  }
+
+  .ts {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    text-align: right;
+  }
+
+  .ts a {
+    display: block;
+  }
+</style>
+<!--#insert file="../common/-header.html" -->
+
+<div class="line">
+  <label for="date">Date</label>
+  <input type="date" name="date" id="date">
+</div>
+
+<div class="line">
+  <label for="begin">Begin</label>
+  <input type="time" name="begin" id="begin">
+</div>
+
+<div class="line">
+  <label for="end">End</label>
+  <input type="time" name="end" id="end">
+</div>
+
+<div class="line">
+  <label for="cluster">Cluster</label>
+  <select name="cluster" id="cluster">
+    <option value="mc1" selected>mc1</option>
+    <option value="kxc1">kxc1</option>
+  </select>
+</div>
+
+<div class="line">
+  <label for="namespace">Namespace</label>
+  <input type="text" name="namespace" id="namespace" value="gfstore">
+</div>
+
+<div class="line">
+  <label for="serviceName">Name</label>
+  <input type="text" name="name" id="serviceName" value="super">
+</div>
+
+<div class="line">
+  <label for="version">Version</label>
+  <input type="text" name="version" id="version" value="1.0.0">
+</div>
+
+<div class="line">
+  <textarea name="cmd" id="cmd" cols="30" rows="10"></textarea>
+</div>
+
+<div class="ts" id="ts">
+</div>
+
+<!--#insert file="../common/-footer.html" -->
+<!--#insert file="../common/-script.html" -->
+<script>
+  function initTime() {
+    let diff = parseInt(('' + location.hash).replace(/\D/g, ''), 10) || 15;
+    console.log('time diff:', diff);
+    let now = Date.now() + 8 * 60 * 60 * 1000;
+    date.value = new Date(now).toISOString().substring(0, 10);
+    begin.value = new Date(now - diff * 60 * 1000).toISOString().substring(11, 19);
+    end.value = new Date(now).toISOString().substring(11, 19);
+  }
+  initTime();
+  window.onhashchange = initTime;
+  setInterval(() => {
+    cmd.value = `lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
+  }, 100);
+  [
+    [5, '5 minutes'],
+    [15, '15 minutes'],
+    [30, '30 minutes'],
+    [60, '1 hours'],
+    [90, '1.5 hours'],
+    [120, '2 hours'],
+    [240, '4 hours'],
+  ].forEach(v => {
+    let link = document.createElement('a');
+    link.href = '#' + v[0];
+    link.innerText = 'last ' + v[1];
+    ts.appendChild(link);
+  });
+</script>
+<!--#insert file="../common/-end.html" -->
