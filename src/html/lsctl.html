@@ -101,7 +101,7 @@
   initTime();
   window.onhashchange = initTime;
   setInterval(() => {
-    cmd.value = `lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
+    cmd.value = `lsctl import --date ${date.value} --begin ${begin.value}:00 --end ${end.value}:00 --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
   }, 100);
   [
     [5, '5 minutes'],
