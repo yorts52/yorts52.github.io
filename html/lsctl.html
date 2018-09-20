@@ -80,7 +80,8 @@ var _hmt = _hmt || [];
 <div class="line">
   <label for="cluster">Cluster</label>
   <select name="cluster" id="cluster">
-    <option value="mc1" selected>mc1</option>
+    <option value="">select cluster</option>
+    <option value="mc1">mc1</option>
     <option value="kxc1">kxc1</option>
   </select>
 </div>
@@ -126,7 +127,18 @@ var _hmt = _hmt || [];
   initTime();
   window.onhashchange = initTime;
   setInterval(() => {
-    cmd.value = `lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
+    if (cluster.value) {
+      cmd.value = `lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
+    } else {
+      cmd.value = `rm *.log
+lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag kxc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}
+mv ${serviceName.value}.log ${serviceName.value}.kxc1.log
+lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag mc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}
+cat ${serviceName.value}.kxc1.log >> ${serviceName.value}.log
+rm ${serviceName.value}.kxc1.log
+ls -lh
+`;
+    }
   }, 100);
   [
     [5, '5 minutes'],
