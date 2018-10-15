@@ -141,6 +141,7 @@ ls -lh
 
   function logparse() {
     try {
+      if (!log.value) return;
       localStorage.last_lsctl_log = log.value;
       window.__log__ = log.value.toString().trim().split('\n').map(v => {
         return ('' + JSON.parse(v).log).trim().replace(/^\[\w+-\d+\] /, '');
