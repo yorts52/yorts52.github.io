@@ -26,7 +26,7 @@
   }
 
   textarea {
-    width: 487px;
+    width: 1234px;
   }
 
   .ts {
@@ -85,12 +85,18 @@
   <textarea name="cmd" id="cmd" cols="30" rows="10"></textarea>
 </div>
 
-<div class="ts" id="ts">
+<div class="ts" id="ts"></div>
+
+<div class="line">
+  <textarea name="log" id="log" cols="30" rows="10" placeholder="PASTE AMAZING LOG PLS"></textarea>
 </div>
 
 <!--#insert file="../common/-footer.html" -->
 <!--#insert file="../common/-script.html" -->
 <script>
+  function timeStr(v) {
+    return ('' + v).split(':').filter(v => v).concat('00', '00', '00').slice(0, 3).join(':');
+  }
   function initTime() {
     let diff = parseInt(('' + location.hash).replace(/\D/g, ''), 10) || 15;
     console.log('time diff:', diff);
@@ -102,6 +108,8 @@
   initTime();
   window.onhashchange = initTime;
   setInterval(() => {
+    begin.value = timeStr(begin.value);
+    end.value = timeStr(end.value);
     if (cluster.value) {
       cmd.value = `lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
     } else {
@@ -114,6 +122,7 @@ rm ${serviceName.value}.kxc1.log
 ls -lh
 `;
     }
+    logparse();
   }, 100);
   [
     [5, '5 minutes'],
@@ -129,5 +138,23 @@ ls -lh
     link.innerText = 'last ' + v[1];
     ts.appendChild(link);
   });
+
+  function logparse() {
+    try {
+      localStorage.last_lsctl_log = log.value;
+      window.__log__ = log.value.toString().trim().split('\n').map(v => {
+        return ('' + JSON.parse(v).log).trim().replace(/^\[\w+-\d+\] /, '');
+      }).join('').replace(/^[\w\W]+?(?:\} (\{)| RESP )/, '$1');
+      window.__data__ = JSON.parse(window.__log__);
+    } catch (error) {
+      console.error('log parse error:', error);
+    }
+  };
+
+  window.onload = function() {
+    if (localStorage.last_lsctl_log) {
+      log.value = localStorage.last_lsctl_log;
+    }
+  };
 </script>
 <!--#insert file="../common/-end.html" -->
