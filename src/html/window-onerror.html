@@ -1,5 +1,5 @@
 <!--#insert file="../template/-intro.html" -->
-<title></title>
+<title>onerror</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <!--#insert file="../template/-outro.html" -->
@@ -8,21 +8,19 @@
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-    typeof rewrite_console === 'function' && rewrite_console(main);
+  typeof rewrite_console === 'function' && rewrite_console(main);
 
-    window.onerror = function(errorMsg, url, line, column, errorObject) {
-        
-        console.log('Error: ', errorMsg, url, line, column, errorObject);
+  window.onerror = function(errorMsg, url, line, column, errorObject) {
+    console.log('Error: ', errorMsg, url, line, column, errorObject);
+    if (errorObject) {
+      console.log(typeof errorObject.stack);
+      console.log('error.stack support');
+    } else {
+      console.log('typeof errorObject: ', typeof errorObject);
+      console.log('error.stack not support');
+    }
+  };
 
-        if (errorObject) {
-            console.log(typeof errorObject.stack);
-            console.log('error.stack support');
-        } else {
-            console.log('typeof errorObject: ', typeof errorObject);
-            console.log('error.stack not support');
-        }
-    };
-
-    error();
+  error();
 </script>
 <!--#insert file="../template/-end.html" -->

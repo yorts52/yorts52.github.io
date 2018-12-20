@@ -1,5 +1,5 @@
 <!--#insert file="../template/-intro.html" -->
-<title>不好玩</title>
+<title>history</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <!--#insert file="../template/-outro.html" -->
@@ -11,19 +11,19 @@
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-    typeof rewrite_console === 'function' && rewrite_console(main);
+  typeof rewrite_console === 'function' && rewrite_console(main);
 
-    var state = 'start';
-    
-    click_me.onclick = function(){
-        click_me.innerText = '点你妹啊!!!'
-        state = 'clicked';
-        location.hash = 'clicked';
-    };
+  var state = 'start';
 
-    setInterval(function(){
-        console.log(state, location.hash);
-    }, 3000);
+  click_me.onclick = function() {
+    click_me.innerText = '点你妹啊!!!'
+    state = 'clicked';
+    location.hash = 'clicked';
+  };
+
+  setInterval(function() {
+    console.log(state, location.hash);
+  }, 3000);
 
 </script>
 <!--#insert file="../template/-end.html" -->

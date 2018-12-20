@@ -8,39 +8,39 @@
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-    typeof rewrite_console === 'function' && rewrite_console(main);
+  typeof rewrite_console === 'function' && rewrite_console(main);
 
-    console.log(typeof window.setTimeout, window.setTimeout === setTimeout);
+  console.log(typeof window.setTimeout, window.setTimeout === setTimeout);
 
-    window.onerror = function(msg, url, line, col, error){
-        console.log(msg, url, line, col, error);
+  window.onerror = function(msg, url, line, col, error) {
+    console.log(msg, url, line, col, error);
+  };
+
+  try {
+    var temp = window.setTimeout;
+
+    window.setTimeout = function(fn, delay) {
+      return temp(fn, delay);
     };
 
-    try {
-        var temp = window.setTimeout;
-        
-        window.setTimeout = function(fn, delay){
-            return temp(fn, delay);
-        };
+    console.log(typeof window.setTimeout, window.setTimeout === setTimeout, temp === setTimeout);
 
-        console.log(typeof window.setTimeout, window.setTimeout === setTimeout, temp === setTimeout);
+    window.setTimeout(function() {
+      console.log('time out');
+    }, 100);
+  } catch (err) {
+    cosole.log('error!!!', err);
+  }
 
-        window.setTimeout(function(){
-            console.log('time out');
-        }, 100);
-    } catch(err) {
-        cosole.log('error!!!', err);
-    }
+  window.setInterval = function() { };
 
-    window.setInterval = function(){};
+  setTimeout(function() {
+    some_error();
+  }, 200);
 
-    setTimeout(function(){
-        some_error();
-    }, 200);
-
-    console.log(typeof window.xxx);
-    window.xxx = 'hehe';
-    console.log(typeof window.xxx, window.xxx, xxx);
+  console.log(typeof window.xxx);
+  window.xxx = 'hehe';
+  console.log(typeof window.xxx, window.xxx, xxx);
 
 </script>
 <!--#insert file="../template/-end.html" -->

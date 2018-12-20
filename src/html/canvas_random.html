@@ -1,122 +1,131 @@
-<canvas id="canvas" width="600" height="400"></canvas>
-<p>
+<!--#insert file="../template/-intro.html" -->
+<title>Canvas Random</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style></style>
+<!--#insert file="../template/-header.html" -->
+<div>
+  <canvas id="canvas" width="600" height="400"></canvas>
+  <p>
     <label for="ck">显示端点 </label>
     <input type="checkbox" checked="checked" id="ck" />
-</p>
-<script src="../js/lib/canvas.js" ></script>
+  </p>
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script src="../static/script/lib/canvas.js"></script>
 <script>
-    var canvas = document.getElementById('canvas');
-    var _width_ = screen.width * 2;
-    canvas.width = screen.width * 2;
-    canvas.height = screen.height;
-    var stage = new Stage(canvas);
-    var createBall = function (radius) {
-        radius = (radius === undefined) ? 20 : radius;
-        var r = Math.floor(Math.random()*255),
-            g = Math.floor(Math.random()*255),
-            b = Math.floor(Math.random()*255);
-        return new Sprite(stage.ctx, {
-            x: 0,
-            y: 0,
-            width: radius*2,
-            draw: function () { 
-                this.ctx.beginPath();
-                this.ctx.arc(0, 0, this.width/2, 0, Math.PI*2, true);
-                this.ctx.closePath();
-                this.ctx.fillStyle = 'rgba('+r+','+g+','+b+','+ Math.min(1, this.width/(2*radius)) +')';
-                this.ctx.fill();
-            }
-        });
-    };
+  var canvas = document.getElementById('canvas');
+  var _width_ = screen.width * 2;
+  canvas.width = screen.width * 2;
+  canvas.height = screen.height;
+  var stage = new Stage(canvas);
+  var createBall = function(radius) {
+    radius = (radius === undefined) ? 20 : radius;
+    var r = Math.floor(Math.random() * 255),
+      g = Math.floor(Math.random() * 255),
+      b = Math.floor(Math.random() * 255);
+    return new Sprite(stage.ctx, {
+      x: 0,
+      y: 0,
+      width: radius * 2,
+      draw: function() {
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, this.width / 2, 0, Math.PI * 2, true);
+        this.ctx.closePath();
+        this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + Math.min(1, this.width / (2 * radius)) + ')';
+        this.ctx.fill();
+      }
+    });
+  };
 
-    var initialize = function () {
-        var focalLength = 250,
-            ballR = 5,
-            ballN = 400000,
-            balls = [],
-            vpx = 0,
-            vpy = 0,
-            angleY = 0,
-            angleX = 0;
+  var initialize = function() {
+    var focalLength = 250,
+      ballR = 5,
+      ballN = 400000,
+      balls = [],
+      vpx = 0,
+      vpy = 0,
+      angleY = 0,
+      angleX = 0;
 
-        for (var i=0; i<ballN; i++) {
-            var ball = createBall(ballR);
-            stage.addChild(ball);
-            ball.xpos = Math.random() * _width_ - _width_ / 2;
-            ball.ypos = Math.random() * _width_ - _width_ / 2;
-            ball.zpos = Math.random() * _width_ - _width_ / 2;
-            balls.push(ball);
-        }
-        vpx = canvas.width/2;
-        vpy = canvas.height/2;
+    for (var i = 0; i < ballN; i++) {
+      var ball = createBall(ballR);
+      stage.addChild(ball);
+      ball.xpos = Math.random() * _width_ - _width_ / 2;
+      ball.ypos = Math.random() * _width_ - _width_ / 2;
+      ball.zpos = Math.random() * _width_ - _width_ / 2;
+      balls.push(ball);
+    }
+    vpx = canvas.width / 2;
+    vpy = canvas.height / 2;
 
-        stage.addEventListener('mousemove', function (x, y) {
-            // angleY = (x - vpx) * .001;
-            // angleX = (y - vpy) * .001;
-        });
-        
-        function rotateY(ball, angleY) {
-            var cosy = Math.cos(angleY),
-                siny = Math.sin(angleY),
-                x1 = ball.xpos * cosy - ball.zpos * siny,
-                z1 = ball.zpos * cosy + ball.xpos * siny;
-            ball.xpos = x1;
-            ball.zpos = z1;
-        }
-        
-        function rotateX(ball, angleX) {
-            var cosx = Math.cos(angleX),
-                sinx = Math.sin(angleX),
-                y1 = ball.ypos * cosx - ball.zpos * sinx,
-                z1 = ball.zpos * cosx + ball.ypos * sinx;
-            ball.ypos = y1;
-            ball.zpos = z1;
-        }
-        
-        function render (ball) {
-            if (ball.zpos > -focalLength) {
-                var scale = focalLength / (focalLength + ball.zpos);
-                ball.x = vpx + ball.xpos * scale;
-                ball.y = vpy + ball.ypos * scale;
-                ball.width = ballR*2*scale;
-                
-                var ck = document.getElementById('ck').checked;
-                if (ck == false) ball.width = 0;
-            }
-        }
-        
-        function drawLinesBetweenBalls () {
-            var ctx = stage.ctx;
-            ctx.beginPath();
-            ctx.moveTo(balls[0].x, balls[0].y);
-            for (var i = 0; i < balls.length; i ++) {
-                // ctx.lineTo(balls[i].x, balls[i].y);
-            }
-            ctx.closePath();
-            ctx.stroke();
-        }
-        
-        function sortZ () {
-            balls.sort(function (a, b) { return b.zpos-a.zpos })
-            stage.children.sort(function (a, b) { return b.zpos-a.zpos })
-        }
+    stage.addEventListener('mousemove', function(x, y) {
+      // angleY = (x - vpx) * .001;
+      // angleX = (y - vpy) * .001;
+    });
 
-        stage.onRefresh = function () { 
-            for (var i=0,ball; ball=balls[i]; i++) { 
-                rotateX(ball, angleX);
-                rotateY(ball, angleY);
-                render(ball);
-            }
-            //sortZ();
-            drawLinesBetweenBalls();
+    function rotateY(ball, angleY) {
+      var cosy = Math.cos(angleY),
+        siny = Math.sin(angleY),
+        x1 = ball.xpos * cosy - ball.zpos * siny,
+        z1 = ball.zpos * cosy + ball.xpos * siny;
+      ball.xpos = x1;
+      ball.zpos = z1;
+    }
 
-            stage.onRefresh = function(){};
-        }
+    function rotateX(ball, angleX) {
+      var cosx = Math.cos(angleX),
+        sinx = Math.sin(angleX),
+        y1 = ball.ypos * cosx - ball.zpos * sinx,
+        z1 = ball.zpos * cosx + ball.ypos * sinx;
+      ball.ypos = y1;
+      ball.zpos = z1;
+    }
 
-        stage.start();
-    };
+    function render(ball) {
+      if (ball.zpos > -focalLength) {
+        var scale = focalLength / (focalLength + ball.zpos);
+        ball.x = vpx + ball.xpos * scale;
+        ball.y = vpy + ball.ypos * scale;
+        ball.width = ballR * 2 * scale;
 
-    onload = initialize;
+        var ck = document.getElementById('ck').checked;
+        if (ck == false) ball.width = 0;
+      }
+    }
 
+    function drawLinesBetweenBalls() {
+      var ctx = stage.ctx;
+      ctx.beginPath();
+      ctx.moveTo(balls[0].x, balls[0].y);
+      for (var i = 0; i < balls.length; i++) {
+        // ctx.lineTo(balls[i].x, balls[i].y);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
 
+    function sortZ() {
+      balls.sort(function(a, b) { return b.zpos - a.zpos })
+      stage.children.sort(function(a, b) { return b.zpos - a.zpos })
+    }
+
+    stage.onRefresh = function() {
+      for (var i = 0, ball; ball = balls[i]; i++) {
+        rotateX(ball, angleX);
+        rotateY(ball, angleY);
+        render(ball);
+      }
+      //sortZ();
+      drawLinesBetweenBalls();
+
+      stage.onRefresh = function() { };
+    }
+
+    stage.start();
+  };
+  onload = initialize;
 </script>
+<!--#insert file="../template/-end.html" -->

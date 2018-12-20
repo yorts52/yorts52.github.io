@@ -1,11 +1,11 @@
 <!--#insert file="../template/-intro.html" -->
-<title></title>
+<title>Msg</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <!--#insert file="../template/-outro.html" -->
 <!--#insert file="../template/-header.html" -->
 <style>
-    html, body {
+  html, body {
         height: 100%;
     }
     * {
@@ -68,16 +68,16 @@
 </style>
 <section id="main"></section>
 <section id="footer">
-    <span>+</span>
-    <textarea id="text"></textarea>
-    <input type="submit" value="SUBMIT">
+  <span>+</span>
+  <textarea id="text"></textarea>
+  <input type="submit" value="SUBMIT">
 </section>
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-typeof rewrite_console === 'function' && rewrite_console(main);
-text.oninput = function() {
+  typeof rewrite_console === 'function' && rewrite_console(main);
+  text.oninput = function() {
     console.log(text.value);
-};
+  };
 </script>
 <!--#insert file="../template/-end.html" -->

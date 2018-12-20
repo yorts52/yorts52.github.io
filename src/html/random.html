@@ -21,17 +21,18 @@
     background: #93ec93;
     width: 10px;
   }
-  
+
   .op {
     text-align: center;
   }
+
   .op * {
     font-size: 20px;
     padding: 0 5px;
     height: 32px;
     box-sizing: border-box;
   }
-  
+
   footer {
     display: none;
   }
@@ -52,7 +53,7 @@
   let debt = location.hash.indexOf('debt') !== -1;
 
   while (counts--) list.push(COUNTS);
-  
+
   let render_lock = false;
   const render = (list) => {
     if (render_lock) return;
@@ -108,7 +109,6 @@
   }
 
   run();
-
 </script>
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->

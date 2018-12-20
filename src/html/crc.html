@@ -1,5 +1,5 @@
 <!--#insert file="../template/-intro.html" -->
-<title></title>
+<title>CRC 32</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <!--#insert file="../template/-outro.html" -->
@@ -8,49 +8,49 @@
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-    var makeCRCTable = function(){
-        var c;
-        var crcTable = [];
-        for(var n =0; n < 256; n++){
-            c = n;
-            for(var k =0; k < 8; k++){
-                c = ((c&1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
-            }
-            crcTable[n] = c;
-        }
-        return crcTable;
+  var makeCRCTable = function() {
+    var c;
+    var crcTable = [];
+    for (var n = 0; n < 256; n++) {
+      c = n;
+      for (var k = 0; k < 8; k++) {
+        c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
+      }
+      crcTable[n] = c;
+    }
+    return crcTable;
+  }
+
+  var crc32 = function(str) {
+    var crcTable = window.crcTable || (window.crcTable = makeCRCTable());
+    var crc = 0 ^ (-1);
+
+    for (var i = 0, len = str.length; i < len; i++) {
+      crc = (crc >>> 8) ^ crcTable[(crc ^ str.charCodeAt(i)) & 0xFF];
     }
 
-    var crc32 = function(str) {
-        var crcTable = window.crcTable || (window.crcTable = makeCRCTable());
-        var crc = 0 ^ (-1);
+    return (crc ^ (-1)) >>> 0;
+  };
 
-        for (var i = 0, len = str.length; i < len; i++ ) {
-            crc = (crc >>> 8) ^ crcTable[(crc ^ str.charCodeAt(i)) & 0xFF];
-        }
+  var getTime = function(str, key, counts) {
+    var time = +new Date
+    counts = counts || ((location.hash.match(/\d+/) || [])[0] >> 0) || 10;
+    var times = counts;
+    console.time(key);
+    while (times--) {
+      crc32(str)
+    }
+    console.timeEnd(key);
+    return [key, ' with ' + counts + ' times: ', (new Date).valueOf() - time, 'ms'].join('');
+  };
 
-        return (crc ^ (-1)) >>> 0;
-    };
+  var rs = [];
+  var lib = 'lib';
+  var str = 'abcdefghijklmnopqrstuvwxyz';
+  rs.push(getTime(str, 'init'));
+  var str_lib = lib.toString();
+  rs.push(getTime(str_lib, 'lib'));
 
-    var getTime = function(str, key, counts){
-        var time = +new Date
-        counts = counts || ((location.hash.match(/\d+/) || [])[0] >> 0) || 10;
-        var times = counts;
-        console.time(key);
-        while(times--) {
-            crc32(str)
-        }
-        console.timeEnd(key);
-        return [key, ' with ' + counts + ' times: ', (new Date).valueOf() - time, 'ms'].join('');
-    };
-
-    var rs = [];
-    var lib = 'lib';
-    var str = 'abcdefghijklmnopqrstuvwxyz';
-    rs.push(getTime(str, 'init'));
-    var str_lib = lib.toString();
-    rs.push(getTime(str_lib, 'lib'));
-
-    result.innerHTML = rs.join('<br />');
+  result.innerHTML = rs.join('<br />');
 </script>
 <!--#insert file="../template/-end.html" -->

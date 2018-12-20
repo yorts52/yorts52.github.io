@@ -1,5 +1,5 @@
 <!--#insert file="../template/-intro.html" -->
-<title></title>
+<title>oninput</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <!--#insert file="../template/-outro.html" -->
@@ -8,8 +8,8 @@
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-    $('#ipt').on('keyup paste input propertychange', function(){
-        console.log(this.value);
-    });
+  $('#ipt').on('keyup paste input propertychange', function() {
+    console.log(this.value);
+  });
 </script>
 <!--#insert file="../template/-end.html" -->

@@ -1,5 +1,5 @@
 <!--#insert file="../template/-intro.html" -->
-<title></title>
+<title>Next Month</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <!--#insert file="../template/-outro.html" -->
@@ -8,22 +8,22 @@
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-	var getDateNextMonth = function (month, date) {
-		date = date || new Date;
-		var tmp = date.getDate();
-		date.setMonth(date.getMonth() + month);
-		return tmp === date.getDate() ? date : new Date(date.setDate(1) - 8.64e7);
-	};
+  var getDateNextMonth = function(month, date) {
+    date = date || new Date;
+    var tmp = date.getDate();
+    date.setMonth(date.getMonth() + month);
+    return tmp === date.getDate() ? date : new Date(date.setDate(1) - 8.64e7);
+  };
 
-	var output = [];
+  var output = [];
 
-	var day = 32;
-	while(--day) output.unshift('2015/8/' + day + ' next 6 month: ' + getDateNextMonth(6, new Date('2015/8/' + day)));
+  var day = 32;
+  while (--day) output.unshift('2015/8/' + day + ' next 6 month: ' + getDateNextMonth(6, new Date('2015/8/' + day)));
 
-	var MAX = 24;
-	var index = 0;
-	while(index++ < MAX) output.push('today next ' + index + ' month: ' + getDateNextMonth(index));
+  var MAX = 24;
+  var index = 0;
+  while (index++ < MAX) output.push('today next ' + index + ' month: ' + getDateNextMonth(index));
 
-	main.innerHTML = output.join('<br />');
+  main.innerHTML = output.join('<br />');
 </script>
 <!--#insert file="../template/-end.html" -->

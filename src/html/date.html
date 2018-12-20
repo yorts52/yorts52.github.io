@@ -3,59 +3,59 @@
 <!--#insert file="../template/-outro.html" -->
 <!--#insert file="../template/-header.html" -->
 <fieldset>
-    <legend>日期转数字</legend>
-    <input id="date" type="date" value="2014-05-20">
-    <input id="time" type="time" value="14:13">
-    <input id="calc1" type="submit" value="转换">
-    <span id="ans"></span>
+  <legend>日期转数字</legend>
+  <input id="date" type="date" value="2014-05-20">
+  <input id="time" type="time" value="14:13">
+  <input id="calc1" type="submit" value="转换">
+  <span id="ans"></span>
 </fieldset>
 <fieldset>
-    <legend>数字转日期</legend>
-    <input id="number" type="text" placeholder="1400566380">
-    <input id="calc2" type="button" value="转换">
-    <span id="datetime"></span>
+  <legend>数字转日期</legend>
+  <input id="number" type="text" placeholder="1400566380">
+  <input id="calc2" type="button" value="转换">
+  <span id="datetime"></span>
 </fieldset>
 <fieldset>
-    <legend>转换成北京时间</legend>
-    <input id="date3" type="text" placeholder="1400566380000">
-    <input id="calc3" type="button" value="转换">
-    <span id="output"></span>
+  <legend>转换成北京时间</legend>
+  <input id="date3" type="text" placeholder="1400566380000">
+  <input id="calc3" type="button" value="转换">
+  <span id="output"></span>
 </fieldset>
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-    // 将时间调整为北京时间再提交
-    var timezoneOffsetGMT8 = 8 * 60; // 8 * 60 GMT+0800 单位为分
-    var timezoneOffset = (new Date()).getTimezoneOffset(); // 系统时区 分 (包含夏令时)
-    var timezoneDiff = (timezoneOffsetGMT8 + timezoneOffset) * 60; // 转换成秒
-    var fixTimezone = function(datetime){
-        return datetime + timezoneDiff;
-    };
+  // 将时间调整为北京时间再提交
+  var timezoneOffsetGMT8 = 8 * 60; // 8 * 60 GMT+0800 单位为分
+  var timezoneOffset = (new Date()).getTimezoneOffset(); // 系统时区 分 (包含夏令时)
+  var timezoneDiff = (timezoneOffsetGMT8 + timezoneOffset) * 60; // 转换成秒
+  var fixTimezone = function(datetime) {
+    return datetime + timezoneDiff;
+  };
 
-    var $$ = function(id) {
-        return document.getElementById(id);
-    }
-    $$("calc1").onclick = function(){
-        console.log($$("date").value);
-        $$("ans").innerText = (+new Date($$("date").value + " " + $$("time").value)) / 1000;
-    }
-    $$("calc2").onclick = function(){
-        var date = new Date($$("number").value * 1000);
-        console.log(date);
-        $$("datetime").innerText = ([date.getFullYear(), date.getMonth() + 1, date.getDate()].join("-")
-            + " " + [date.getHours(), date.getMinutes()].join(":")).replace(/\b(\d)\b/g, "0$1");
-    }
+  var $$ = function(id) {
+    return document.getElementById(id);
+  }
+  $$("calc1").onclick = function() {
+    console.log($$("date").value);
+    $$("ans").innerText = (+new Date($$("date").value + " " + $$("time").value)) / 1000;
+  }
+  $$("calc2").onclick = function() {
+    var date = new Date($$("number").value * 1000);
+    console.log(date);
+    $$("datetime").innerText = ([date.getFullYear(), date.getMonth() + 1, date.getDate()].join("-")
+      + " " + [date.getHours(), date.getMinutes()].join(":")).replace(/\b(\d)\b/g, "0$1");
+  }
 
-    $$("calc3").onclick = function(){
-        var val = $$("date3").value;
-        var output = [];
-        if (val) {
-            var before = new Date(/^\d+$/.test(val) ? parseInt(val) : val);
-            output.push(before);
-            var after = fixTimezone(+before / 1000 >> 0) * 1000;
-            output.push(new Date(after), after);
-            $$("output").innerText = output.join(" ---is--- ");
-        }
-    };
+  $$("calc3").onclick = function() {
+    var val = $$("date3").value;
+    var output = [];
+    if (val) {
+      var before = new Date(/^\d+$/.test(val) ? parseInt(val) : val);
+      output.push(before);
+      var after = fixTimezone(+before / 1000 >> 0) * 1000;
+      output.push(new Date(after), after);
+      $$("output").innerText = output.join(" ---is--- ");
+    }
+  };
 </script>
 <!--#insert file="../template/-end.html" -->
