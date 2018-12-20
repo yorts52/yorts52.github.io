@@ -1,0 +1,38 @@
+<!--#insert file="../template/-intro.html" -->
+<title>Canvas Text BG</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  button {
+    width: 60px;
+  }
+  textarea, input, button {
+    float: left;
+    margin: 20px 0 20px 20px;
+  }
+</style>
+<!--#insert file="../template/-header.html" -->
+<div>
+  <textarea name="text" id="text" cols="120" rows="10"></textarea>
+  <input type="color" id="bg" style="height:19px">
+  <button onclick="create()">生成</button>
+  <canvas id="canvas"></canvas>
+  <img id="canvas_img">
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  canvas.width = screen.width;
+  canvas.height = screen.height;
+  var ctx = canvas.getContext("2d");
+  function create() {
+    
+  }
+</script>
+<!--#insert file="../template/-end.html" -->

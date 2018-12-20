@@ -1,8 +1,8 @@
-<!--#insert file="../common/-intro.html" -->
+<!--#insert file="../template/-intro.html" -->
 <title></title>
 <meta name="keywords" content="">
 <meta name="description" content="">
-<!--#insert file="../common/-outro.html" -->
+<!--#insert file="../template/-outro.html" -->
 <style>
   * {
     box-sizing: border-box;
@@ -52,7 +52,7 @@
     width: 80px;
   }
 </style>
-<!--#insert file="../common/-header.html" -->
+<!--#insert file="../template/-header.html" -->
 
 <div class="line">
   <label for="host">Host</label>
@@ -116,8 +116,8 @@
   <textarea name="log" id="log" cols="30" rows="10" placeholder="PASTE AMAZING LOG PLS"></textarea>
 </div>
 
-<!--#insert file="../common/-footer.html" -->
-<!--#insert file="../common/-script.html" -->
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
 <script>
   function timeStr(v) {
     return ('' + v).split(':').filter(v => v).concat('00', '00', '00').slice(0, 3).join(':');
@@ -206,4 +206,4 @@ ls -lh
     document.execCommand('copy');
   };
 </script>
-<!--#insert file="../common/-end.html" -->
+<!--#insert file="../template/-end.html" -->

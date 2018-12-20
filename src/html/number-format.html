@@ -1,7 +1,7 @@
-<!--#insert file="../common/-intro.html" -->
+<!--#insert file="../template/-intro.html" -->
 <title>Number Format</title>
-<!--#insert file="../common/-outro.html" -->
-<!--#insert file="../common/-header.html" -->
+<!--#insert file="../template/-outro.html" -->
+<!--#insert file="../template/-header.html" -->
 <fieldset>
     <legend>mobile</legend>
     <span id="ans11"></span><br>
@@ -16,8 +16,8 @@
     <legend>id card</legend>
     <span id="ans3"></span>
 </fieldset>
-<!--#insert file="../common/-footer.html" -->
-<!--#insert file="../common/-script.html" -->
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
 <script>
     function numberFormat(number, hidden_char, begin_visible_size, end_visible_size, gap_size_arr, gap_char){
         number = '' + number;
@@ -54,4 +54,4 @@
     document.getElementById('ans3').innerHTML = numberFormat('410824199001011922', '$&', 0, 0, [6, 8, 4]);
 
 </script>
-<!--#insert file="../common/-end.html" -->
+<!--#insert file="../template/-end.html" -->

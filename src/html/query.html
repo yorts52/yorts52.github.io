@@ -1,4 +1,4 @@
-<!--#insert file="../common/-intro.html" -->
+<!--#insert file="../template/-intro.html" -->
 <title>Query</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -65,8 +65,8 @@
     width: 80px;
   }
 </style>
-<!--#insert file="../common/-outro.html" -->
-<!--#insert file="../common/-header.html" -->
+<!--#insert file="../template/-outro.html" -->
+<!--#insert file="../template/-header.html" -->
 <form id="filter" action="./query.html">
   <input type="hidden" name="page" id="pageIndex">
   <label for="phone">手机:</label>
@@ -83,8 +83,8 @@
   </table>
 </div>
 <div id="pager"></div>
-<!--#insert file="../common/-footer.html" -->
-<!--#insert file="../common/-script.html" -->
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
 <script>
   var currentPage = parseInt((location.search.match(/page=(\d+)/) || [])[1], 10) || 0;
   var phone = (location.search.match(/phone=(\d+)/) || [])[1] || '';
@@ -204,4 +204,4 @@
   }
 
 </script>
-<!--#insert file="../common/-end.html" -->
+<!--#insert file="../template/-end.html" -->
