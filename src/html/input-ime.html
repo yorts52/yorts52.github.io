@@ -1,24 +1,26 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ime</title>
-</head>
-<body>
-    <script>
-        function hideIme(){
-            setTimeout(function(){
-                hide_ime.focus();
-                hide_ime.setAttribute('disabled', 'disabled');
-                hide_ime.setAttribute('readonly', 'readonly');
-                hide_ime.blur();
-                hide_ime.removeAttribute('disabled');
-                hide_ime.removeAttribute('readonly');
-            }, 1000);
-        }
-    </script>
-    <input type="text" onfocus="hideIme()">
-    <input type="text" id="hide_ime" style="background: #eee;">
-    
-</body>
-</html>
+<!--#insert file="../template/-intro.html" -->
+<title>input-ime</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style></style>
+<!--#insert file="../template/-header.html" -->
+<div>
+  <input type="text" onfocus="hideIme()">
+  <input type="text" id="hide_ime" style="background: #eee;">
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  function hideIme() {
+    setTimeout(function() {
+      hide_ime.focus();
+      hide_ime.setAttribute('disabled', 'disabled');
+      hide_ime.setAttribute('readonly', 'readonly');
+      hide_ime.blur();
+      hide_ime.removeAttribute('disabled');
+      hide_ime.removeAttribute('readonly');
+    }, 1000);
+  }
+</script>
+<!--#insert file="../template/-end.html" -->

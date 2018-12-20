@@ -1,33 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>KF</title>
-  <style>
-    img {
-      display: block;
-      width: 100%;
-      margin: 30px auto;
-    }
-  </style>
-</head>
-
-<body>
+<!--#insert file="../template/-intro.html" -->
+<title>KF</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style>
+  img {
+    display: block;
+    width: 100%;
+    margin: 30px auto;
+  }
+</style>
+<!--#insert file="../template/-header.html" -->
+<div>
   <div id="main"></div>
-  <script>
-    let html = '';
-    const getCode = (str) => {
-      return (str || '').replace(/[^\d,]+/g, '');
-    };
-    getCode(location.hash).split(',').forEach(code => {
-      if (!/^\d{6}$/.test(code)) return;
-      html += `<img src="//j4.dfcfw.com/charts/pic6/${code}.png">`;
-    });
-    main.innerHTML = html;
-  </script>
-</body>
-
-</html>
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  let html = '';
+  const getCode = (str) => {
+    return (str || '').replace(/[^\d,]+/g, '');
+  };
+  getCode(location.hash).split(',').forEach(code => {
+    if (!/^\d{6}$/.test(code)) return;
+    html += `<img src="//j4.dfcfw.com/charts/pic6/${code}.png">`;
+  });
+  main.innerHTML = html;
+</script>
+<!--#insert file="../template/-end.html" -->

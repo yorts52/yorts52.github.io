@@ -1,61 +1,60 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Canvas BG</title>
-  <style>
-    input{
-            border: 1px solid #123;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-
-<body>
+<!--#insert file="../template/-intro.html" -->
+<title>Canvas BG</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style>
+  input {
+    border: 1px solid #123;
+    margin-bottom: 10px;
+  }
+</style>
+<!--#insert file="../template/-header.html" -->
+<div>
   <input type="file" id="img1" onchange="readAsDataURL(event, 1)">
   <input type="file" id="img2" onchange="readAsDataURL(event, 2)">
   <input type="color" id="bg" style="height:19px">
   <button onclick="create()">生成</button>
   <canvas id="canvas"></canvas>
   <img id="canvasImg">
-  <script>
-    canvas.width = screen.width * 2;
-    canvas.height = screen.height;
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  canvas.width = screen.width * 2;
+  canvas.height = screen.height;
 
-    var ctx = canvas.getContext("2d");
-    var imgs = {}
+  var ctx = canvas.getContext("2d");
+  var imgs = {}
 
-    function readAsDataURL(event, index) {
-      // 检验是否为图像文件
-      var file = event.target.files[0];
-      if (!/image\/\w+/.test(file.type)) {
-        alert("看清楚，这个需要图片！");
-        return false;
-      }
-      var reader = new FileReader();
-      // 将文件以Data URL形式读入页面
-      reader.readAsDataURL(file);
-      reader.onload = function(e) {
-        var img = imgs["img" + index] = new Image();
-        img.crossOrigin = "anonymous";
-        img.src = this.result;
-      };
+  function readAsDataURL(event, index) {
+    // 检验是否为图像文件
+    var file = event.target.files[0];
+    if (!/image\/\w+/.test(file.type)) {
+      alert("看清楚，这个需要图片！");
+      return false;
     }
+    var reader = new FileReader();
+    // 将文件以Data URL形式读入页面
+    reader.readAsDataURL(file);
+    reader.onload = function(e) {
+      var img = imgs["img" + index] = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = this.result;
+    };
+  }
 
-    function create() {
-      ctx.fillStyle = bg.value;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      if (imgs.img1 && imgs.img2) {
-        ctx.drawImage(imgs.img1, 0, 0, screen.width, screen.height);
-        ctx.drawImage(imgs.img2, screen.width, 0, screen.width, screen.height);
-        var dataURL = canvas.toDataURL();
-        document.getElementById("canvasImg").src = dataURL;
-      } else {
-        alert("Add Image First.");
-      }
+  function create() {
+    ctx.fillStyle = bg.value;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (imgs.img1 && imgs.img2) {
+      ctx.drawImage(imgs.img1, 0, 0, screen.width, screen.height);
+      ctx.drawImage(imgs.img2, screen.width, 0, screen.width, screen.height);
+      var dataURL = canvas.toDataURL();
+      document.getElementById("canvasImg").src = dataURL;
+    } else {
+      alert("Add Image First.");
     }
-  </script>
-</body>
-
-</html>
+  }
+</script>
+<!--#insert file="../template/-end.html" -->

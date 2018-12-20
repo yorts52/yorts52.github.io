@@ -1,45 +1,53 @@
-<!DOCTYPE html>
-<html>
- <head>
-    <meta charset="utf-8">
-    <title>Canvas</title>
- </head>
- <style type="text/css">
-    body{margin:20px auto; padding:0; width:25px; }
-    canvas{border:dashed 2px #CCC}
- </style>
- <script type="text/javascript">
-    function $$(id){
-        return document.getElementById(id);
-    }
-    function init(){
-        var can = $$('can');
-        var cans = can.getContext('2d');
-        cans.font = 'bold 40px Arial';
-        cans.textAlign = 'center';
-        cans.textBaseline = 'top';
-        // cans.strokeStyle = 'black';
-        // cans.strokeText('0', 12.5, 0);
-        cans.fillStyle = 'rgb(82, 146, 208)';
-        cans.fillText('0', 12.5, 0);
-        var data = cans.getImageData(0, 0, 25, 44);
+<!--#insert file="../template/-intro.html" -->
+<title>Canvas</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style>
+  body {
+    margin: 20px auto;
+    padding: 0;
+    width: 25px;
+  }
 
-        var lines = [];
-        var i = 0;
-        for (var w = 0; w < data.width; w++) {
-            var line = [];
-            for (var h = 0; h < data.height; h++) {
-                line.push([data.data[i], data.data[i + 1], data.data[i + 2], data.data[i + 3]]);
-                i++;
-            }
-            lines.push(line);
-        }
+  canvas {
+    border: dashed 2px #CCC
+  }
+</style>
+<!--#insert file="../template/-header.html" -->
+<div>
+  <canvas id="can" width="25px" height="44px"></canvas>
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  function $$(id) {
+    return document.getElementById(id);
+  }
+  function init() {
+    var can = $$('can');
+    var cans = can.getContext('2d');
+    cans.font = 'bold 40px Arial';
+    cans.textAlign = 'center';
+    cans.textBaseline = 'top';
+    // cans.strokeStyle = 'black';
+    // cans.strokeText('0', 12.5, 0);
+    cans.fillStyle = 'rgb(82, 146, 208)';
+    cans.fillText('0', 12.5, 0);
+    var data = cans.getImageData(0, 0, 25, 44);
 
-        console.log('ido', lines);
-        // document.write(JSON.stringify(lines));
+    var lines = [];
+    var i = 0;
+    for (var w = 0; w < data.width; w++) {
+      var line = [];
+      for (var h = 0; h < data.height; h++) {
+        line.push([data.data[i], data.data[i + 1], data.data[i + 2], data.data[i + 3]]);
+        i++;
+      }
+      lines.push(line);
     }
- </script>
-<body onload="init()">
-    <canvas id="can" width="25px" height="44px"></canvas>
-</body>
-</html>
+    console.log('lines:', lines);
+  }
+  setTimeout(init, 0);
+</script>
+<!--#insert file="../template/-end.html" -->
