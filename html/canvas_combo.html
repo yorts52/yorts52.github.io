@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Canvas BG</title>
@@ -10,9 +11,10 @@
         }
     </style>
 </head>
+
 <body>
-    <input type="file" id="img1">
-    <input type="file" id="img2">
+    <input type="file" id="img1" onchange="readAsDataURL(event, 1)">
+    <input type="file" id="img2" onchange="readAsDataURL(event, 2)">
     <input type="color" id="bg" style="height:19px">
     <button onclick="create()">生成</button>
     <canvas id="canvas"></canvas>
@@ -22,33 +24,38 @@
         canvas.height = screen.height;
 
         var ctx = canvas.getContext("2d");
-        
-        function create(){
+        var imgs = {}
+
+        function readAsDataURL(event, index) {
+            // 检验是否为图像文件
+            var file = event.target.files[0];
+            if (!/image\/\w+/.test(file.type)) {
+                alert("看清楚，这个需要图片！");
+                return false;
+            }
+            var reader = new FileReader();
+            // 将文件以Data URL形式读入页面
+            reader.readAsDataURL(file);
+            reader.onload = function(e) {
+                var img = imgs["img" + index] = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = this.result;
+            };
+        }
+
+        function create() {
             ctx.fillStyle = bg.value;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            var loaded = 0;
-            var _img1 = new Image();
-            var _img2 = new Image();
-            _img1.crossOrigin = "anonymous";
-            _img2.crossOrigin = "anonymous";
-            var img_src1 = _img1.src = (img1.value.match(/\\(\w+\.\w+)$/) || [, ''])[1];
-            var img_src2 = _img2.src = (img2.value.match(/\\(\w+\.\w+)$/) || [, ''])[1];
-            _img1.onload = _img2.onload = function(){
-                ++loaded;
-                if (loaded === 2 ) {
-                    ctx.drawImage(_img1, 0, 0, screen.width, screen.height);
-                    ctx.drawImage(_img2, screen.width, 0, screen.width, screen.height);
-                    var dataURL = canvas.toDataURL();
-                    document.getElementById('canvasImg').src = dataURL;
-                } else if(!img_src1 || !img_src1) {
-                    !img_src1 && ctx.drawImage(_img2, 0, 0, screen.width * 2, screen.height);
-                    !img_src2 && ctx.drawImage(_img1, 0, 0, screen.width * 2, screen.height);
-                    var dataURL = canvas.toDataURL();
-                    document.getElementById('canvasImg').src = dataURL;
-                }
+            if (imgs.img1 && imgs.img2) {
+                ctx.drawImage(imgs.img1, 0, 0, screen.width, screen.height);
+                ctx.drawImage(imgs.img2, screen.width, 0, screen.width, screen.height);
+                var dataURL = canvas.toDataURL();
+                document.getElementById("canvasImg").src = dataURL;
+            } else {
+                alert("Add Image First.");
             }
         }
     </script>
 </body>
+
 </html>
