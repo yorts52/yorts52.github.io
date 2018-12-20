@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title></title>
+<title>onerror</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <link rel="stylesheet" href="/static/css/base.css">
@@ -35,21 +35,19 @@
 <script src="/static/script/base/logger.js"></script>
 
 <script>
-    typeof rewrite_console === 'function' && rewrite_console(main);
+  typeof rewrite_console === 'function' && rewrite_console(main);
 
-    window.onerror = function(errorMsg, url, line, column, errorObject) {
-        
-        console.log('Error: ', errorMsg, url, line, column, errorObject);
+  window.onerror = function(errorMsg, url, line, column, errorObject) {
+    console.log('Error: ', errorMsg, url, line, column, errorObject);
+    if (errorObject) {
+      console.log(typeof errorObject.stack);
+      console.log('error.stack support');
+    } else {
+      console.log('typeof errorObject: ', typeof errorObject);
+      console.log('error.stack not support');
+    }
+  };
 
-        if (errorObject) {
-            console.log(typeof errorObject.stack);
-            console.log('error.stack support');
-        } else {
-            console.log('typeof errorObject: ', typeof errorObject);
-            console.log('error.stack not support');
-        }
-    };
-
-    error();
+  error();
 </script>
 </body></html>

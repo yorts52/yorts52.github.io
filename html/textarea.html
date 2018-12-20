@@ -53,19 +53,19 @@
   <script>
 
     /**
- * cursorPosition Object
- *
- * Created by Blank Zheng on 2010/11/12.
- * Copyright (c) 2010 PlanABC.net. All rights reserved.
- * 
- * The copyrights embodied in the content of this file are licensed under the BSD (revised) open source license.
- */
+     * cursorPosition Object
+     *
+     * Created by Blank Zheng on 2010/11/12.
+     * Copyright (c) 2010 PlanABC.net. All rights reserved.
+     *
+     * The copyrights embodied in the content of this file are licensed under the BSD (revised) open source license.
+     */
 
     var cursorPosition = {
       get: function(textarea) {
         var rangeData = { text: "", start: 0, end: 0 };
 
-        if (textarea.setSelectionRange) { // W3C	
+        if (textarea.setSelectionRange) { // W3C
           textarea.focus();
           rangeData.start = textarea.selectionStart;
           rangeData.end = textarea.selectionEnd;
@@ -81,7 +81,7 @@
           rangeData.text = oS.text;
           rangeData.bookmark = oS.getBookmark();
 
-          // object.moveStart(sUnit [, iCount]) 
+          // object.moveStart(sUnit [, iCount])
           // Return Value: Integer that returns the number of units moved.
           for (i = 0; oR.compareEndPoints('StartToStart', oS) < 0 && oS.moveStart("character", -1) !== 0; i++) {
             // Why? You can alert(textarea.value.length)

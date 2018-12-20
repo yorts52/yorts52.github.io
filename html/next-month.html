@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title></title>
+<title>Next Month</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <link rel="stylesheet" href="/static/css/base.css">
@@ -35,22 +35,22 @@
 <script src="/static/script/base/logger.js"></script>
 
 <script>
-	var getDateNextMonth = function (month, date) {
-		date = date || new Date;
-		var tmp = date.getDate();
-		date.setMonth(date.getMonth() + month);
-		return tmp === date.getDate() ? date : new Date(date.setDate(1) - 8.64e7);
-	};
+  var getDateNextMonth = function(month, date) {
+    date = date || new Date;
+    var tmp = date.getDate();
+    date.setMonth(date.getMonth() + month);
+    return tmp === date.getDate() ? date : new Date(date.setDate(1) - 8.64e7);
+  };
 
-	var output = [];
+  var output = [];
 
-	var day = 32;
-	while(--day) output.unshift('2015/8/' + day + ' next 6 month: ' + getDateNextMonth(6, new Date('2015/8/' + day)));
+  var day = 32;
+  while (--day) output.unshift('2015/8/' + day + ' next 6 month: ' + getDateNextMonth(6, new Date('2015/8/' + day)));
 
-	var MAX = 24;
-	var index = 0;
-	while(index++ < MAX) output.push('today next ' + index + ' month: ' + getDateNextMonth(index));
+  var MAX = 24;
+  var index = 0;
+  while (index++ < MAX) output.push('today next ' + index + ' month: ' + getDateNextMonth(index));
 
-	main.innerHTML = output.join('<br />');
+  main.innerHTML = output.join('<br />');
 </script>
 </body></html>

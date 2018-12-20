@@ -8,21 +8,21 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title></title>
+<title>Colors</title>
 <meta name="keywords" content="qb">
 <meta name="description" content="qb">
 <link rel="stylesheet" href="/static/css/base.css">
 
 <style>
-	span {
-		width: 320px;
-		margin: 10px;
-		padding: 10px;
-		font-size: 36px;
-		line-height: 1.5;
-		text-align: center;
-		display: inline-block;
-	}
+  span {
+    width: 320px;
+    margin: 10px;
+    padding: 10px;
+    font-size: 36px;
+    line-height: 1.5;
+    text-align: center;
+    display: inline-block;
+  }
 </style>
 <script>
   var _hmt = _hmt || [];
@@ -45,29 +45,29 @@
 <script src="/static/script/base/logger.js"></script>
 
 <script>
-	var CM = 256 * 256 * 256 - 1;
+  var CM = 256 * 256 * 256 - 1;
 
-	var number_2_color = function(number) {
-		var str = '000000' + parseInt(number, 10).toString(16);
-		return '#' + str.substring(str.length - 6);
-	};
+  var number_2_color = function(number) {
+    var str = '000000' + parseInt(number, 10).toString(16);
+    return '#' + str.substring(str.length - 6);
+  };
 
-	var invert_color = function(number) {
-		return number_2_color(CM - number);
-	};
+  var invert_color = function(number) {
+    return number_2_color(CM - number);
+  };
 
-	var insert = function(number) {
-		var bg_color = number_2_color(number);
-		var txt_color = invert_color(number);
+  var insert = function(number) {
+    var bg_color = number_2_color(number);
+    var txt_color = invert_color(number);
 
-		var span = document.createElement('span');
-		span.style.color = txt_color;
-		span.style.backgroundColor = bg_color;
-		span.innerText = [bg_color, txt_color].join('|').toUpperCase();
-		document.body.appendChild(span);
-	};
+    var span = document.createElement('span');
+    span.style.color = txt_color;
+    span.style.backgroundColor = bg_color;
+    span.innerText = [bg_color, txt_color].join('|').toUpperCase();
+    document.body.appendChild(span);
+  };
 
-	for (var i = 0, l = CM; i < l; insert(i), i += 8192);
+  for (var i = 0, l = CM; i < l; insert(i), i += 8192);
 
 </script>
 </body></html>

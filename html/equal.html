@@ -8,21 +8,23 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title>equal</title>
+<title>Equal</title>
 <link rel="stylesheet" href="/static/css/base.css">
 
 <style type="text/css">
-	table{
-		border-collapse: collapse;
-	}
-	td{
-		border: 1px solid #999;
-		margin: 0;
-		padding: 2px 5px;
-	}
-	.light{
-		background: #ccc;
-	}
+  table {
+    border-collapse: collapse;
+  }
+
+  td {
+    border: 1px solid #999;
+    margin: 0;
+    padding: 2px 5px;
+  }
+
+  .light {
+    background: #ccc;
+  }
 </style>
 <script>
   var _hmt = _hmt || [];
@@ -46,40 +48,40 @@
 <script src="/static/script/base/logger.js"></script>
 
 <script type="text/javascript">
-var table = document.getElementsByTagName('table')[0];
-var array1 = ["==", undefined, null, true, false, Infinity, NaN, 0, 1, 2, "abc",
-{
-	toString: function() {
-		return "{}"
-	}
-}];
-var array2 = ["==", undefined, null, true, false, Infinity, NaN, 0, 1, 2, "abc",
-{
-	toString: function() {
-		return "{}"
-	}
-}];
-var length = array1.length;
-var html = [];
-var temp = false;
-for (var i = 0; i < length; i++) {
-	html.push("<tr>");
-	for (var j = 0; j < length; j++) {
-		if (i == 0) {
-			html.push("<td>" + array1[j] + "</td>");
-		} else if (j == 0) {
-			html.push("<td>" + array1[i] + "</td>");
-		} else {
-			temp = array1[i] == array2[j];
-			if (temp) {
-				html.push("<td class='light'>" + temp + "</td>");
-			} else {
-				html.push("<td>" + temp + "</td>");
-			}
-		}
-	}
-	html.push("</tr>");
-}
-table.innerHTML = html.join("");
+  var table = document.getElementsByTagName('table')[0];
+  var array1 = ["==", undefined, null, true, false, Infinity, NaN, 0, 1, 2, "abc",
+    {
+      toString: function() {
+        return "{}"
+      }
+    }];
+  var array2 = ["==", undefined, null, true, false, Infinity, NaN, 0, 1, 2, "abc",
+    {
+      toString: function() {
+        return "{}"
+      }
+    }];
+  var length = array1.length;
+  var html = [];
+  var temp = false;
+  for (var i = 0; i < length; i++) {
+    html.push("<tr>");
+    for (var j = 0; j < length; j++) {
+      if (i == 0) {
+        html.push("<td>" + array1[j] + "</td>");
+      } else if (j == 0) {
+        html.push("<td>" + array1[i] + "</td>");
+      } else {
+        temp = array1[i] == array2[j];
+        if (temp) {
+          html.push("<td class='light'>" + temp + "</td>");
+        } else {
+          html.push("<td>" + temp + "</td>");
+        }
+      }
+    }
+    html.push("</tr>");
+  }
+  table.innerHTML = html.join("");
 </script>
 </body></html>

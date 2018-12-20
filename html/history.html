@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title>不好玩</title>
+<title>history</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <link rel="stylesheet" href="/static/css/base.css">
@@ -38,19 +38,19 @@
 <script src="/static/script/base/logger.js"></script>
 
 <script>
-    typeof rewrite_console === 'function' && rewrite_console(main);
+  typeof rewrite_console === 'function' && rewrite_console(main);
 
-    var state = 'start';
-    
-    click_me.onclick = function(){
-        click_me.innerText = '点你妹啊!!!'
-        state = 'clicked';
-        location.hash = 'clicked';
-    };
+  var state = 'start';
 
-    setInterval(function(){
-        console.log(state, location.hash);
-    }, 3000);
+  click_me.onclick = function() {
+    click_me.innerText = '点你妹啊!!!'
+    state = 'clicked';
+    location.hash = 'clicked';
+  };
+
+  setInterval(function() {
+    console.log(state, location.hash);
+  }, 3000);
 
 </script>
 </body></html>
