@@ -41,7 +41,9 @@
 <header></header>
 <div>
   <textarea name="text" id="text" cols="120" rows="10"></textarea>
-  <input type="color" id="bg" style="height:19px">
+  <input type="color" id="bg" value="#000000" style="height:19px">
+  <input type="color" id="fgs" value="#cf9f0f" style="height:19px">
+  <input type="color" id="fge" value="#fc980f" style="height:19px">
   <button onclick="create()">生成</button>
   <canvas id="canvas"></canvas>
   <img id="canvas_img">
@@ -58,8 +60,35 @@
   canvas.width = screen.width;
   canvas.height = screen.height;
   var ctx = canvas.getContext("2d");
+  text.value = localStorage.canvas_text || '';
   function create() {
+    if (!text.value) alert('textarea null.');
+    localStorage.canvas_text = text.value;
 
+    // set background
+    ctx.fillStyle = bg.value;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // set text
+    let gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, fgs.value);
+    gradient.addColorStop(1, fge.value);
+    ctx.fillStyle = gradient;
+
+    ctx.font = "normal small-caps 100 52px STKaiti";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.9)";
+    ctx.shadowOffsetX = 10;
+    ctx.shadowOffsetY = 10;
+    ctx.shadowBlur = 5;
+
+    ctx.textAlign = "right";
+    text.value.split('\n').forEach((v, i) => {
+      ctx.fillText(v, screen.width - 300, 400 + i * 80);
+    });
+
+    ctx.restore();
+    var dataURL = canvas.toDataURL();
+    document.getElementById("canvas_img").src = dataURL;
   }
 </script>
 </body></html>
