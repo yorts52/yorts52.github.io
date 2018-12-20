@@ -38,7 +38,7 @@
     width: 1234px;
   }
 
-  .ts {
+  .ts, .side-link {
     position: fixed;
     right: 20px;
     top: 20px;
@@ -47,6 +47,18 @@
 
   .ts a {
     display: block;
+  }
+
+  .side-link a {
+    display: block;
+  }
+
+  .side-link {
+    top: 250px;
+  }
+
+  #copy {
+    width: 80px;
   }
 </style>
 <script>
@@ -61,6 +73,11 @@ var _hmt = _hmt || [];
 </head>
 <body>
 <header></header>
+
+<div class="line">
+  <label for="host">Host</label>
+  <input type="text" name="host" id="host">
+</div>
 
 <div class="line">
   <label for="date">Date</label>
@@ -83,6 +100,8 @@ var _hmt = _hmt || [];
     <option value="">select cluster</option>
     <option value="mc1">mc1</option>
     <option value="kxc1">kxc1</option>
+    <option value="mcuat">mcuat</option>
+    <option value="cs2">cs2</option>
   </select>
 </div>
 
@@ -102,10 +121,16 @@ var _hmt = _hmt || [];
 </div>
 
 <div class="line">
+  <input type="button" id="copy" value="copy">
+</div>
+
+<div class="line">
   <textarea name="cmd" id="cmd" cols="30" rows="10"></textarea>
 </div>
 
 <div class="ts" id="ts"></div>
+
+<div class="side-link" id="sidelink"></div>
 
 <div class="line">
   <textarea name="log" id="log" cols="30" rows="10" placeholder="PASTE AMAZING LOG PLS"></textarea>
@@ -133,10 +158,14 @@ var _hmt = _hmt || [];
   initTime();
   window.onhashchange = initTime;
   setInterval(() => {
+    if (host.value && host.value !== localStorage.inner_host) {
+      localStorage.inner_host = host.value;
+    }
     begin.value = timeStr(begin.value);
     end.value = timeStr(end.value);
     if (cluster.value) {
-      cmd.value = `lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
+      cmd.value = `rm *.log
+lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
     } else {
       cmd.value = `rm *.log
 lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag kxc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}
@@ -183,6 +212,23 @@ ls -lh
     if (localStorage.last_lsctl_log) {
       log.value = localStorage.last_lsctl_log;
     }
+    if (localStorage.inner_host) {
+      host.value = localStorage.inner_host;
+      [
+        ['/', 'LOGIN'],
+        ['/is/#/log-insight/tty', 'TERMINAL']
+      ].forEach(v => {
+        let link = document.createElement('a');
+        link.href = 'http://' + host.value + v[0];
+        link.innerText = v[1];
+        sidelink.appendChild(link);
+      });
+    }
+  };
+
+  copy.onclick = function() {
+    cmd.select();
+    document.execCommand('copy');
   };
 </script>
 </body></html>
