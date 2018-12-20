@@ -2,19 +2,18 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var cleanCss = require('gulp-clean-css');
 var includer = require('gulp-htmlincluder');
-var minifyHTML = require('gulp-minify-html');
 
 var paths = {
-  html: ['./src/**/*.html'],
-  css: ['./src/**/*.css'],
+  html: ['./html/**/*.html'],
+  css: ['./static/css/**/*.css'],
   img: [
-    './src/**/*.jpeg',
-    './src/**/*.jpg',
-    './src/**/*.png',
-    './src/**/*.gif',
+    './static/image/**/*.jpeg',
+    './static/image/**/*.jpg',
+    './static/image/**/*.png',
+    './static/image/**/*.gif',
   ],
-  js: ['./src/**/*.js'],
-  dest: './'
+  script: ['./static/script/**/*.js'],
+  dest: '../'
 };
 
 gulp.task('html', function() {
@@ -29,8 +28,8 @@ gulp.task('css', function() {
     .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('js', function() {
-  gulp.src(paths.js)
+gulp.task('script', function() {
+  gulp.src(paths.script)
     .pipe(uglify())
     .pipe(gulp.dest(paths.dest));
 });
@@ -43,12 +42,12 @@ gulp.task('img', function() {
 gulp.task('watch', function() {
   gulp.watch(paths.img, ['img']);
   gulp.watch(paths.css, ['css']);
-  gulp.watch(paths.js, ['js']);
+  gulp.watch(paths.script, ['script']);
   gulp.watch(paths.html, ['html']);
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['img', 'css', 'js', 'html']);
+gulp.task('default', ['img', 'css', 'script', 'html']);
 
 // The dev task
 gulp.task('dev', ['watch']);
