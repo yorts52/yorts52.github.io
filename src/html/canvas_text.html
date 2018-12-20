@@ -56,7 +56,7 @@
 
     ctx.textAlign = "right";
     text.value.split('\n').forEach((v, i) => {
-      ctx.fillText(v, screen.width - 300, 400 + i * 80);
+      ctx.fillText(v, screen.width - 160, screen.height - 240 + i * 80);
     });
 
     ctx.restore();
