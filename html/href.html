@@ -1,17 +1,53 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>href</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>href-target</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/static/css/base.css">
+
+<style></style>
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74766352deaef64bd5be6a9c4445da55";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
 </head>
 <body>
-    <a id="xx" href="/xx">xx</a>
-    <script src="//code.jquery.com/jquery.js"></script>
-    <script>
-        $('#xx').each(function(){
-            console.log(this.getAttribute('href'), this.href, $(this).attr('href'), this.getAttribute('href') === this.href, this.getAttribute('href') === $(this).attr('href'));
-            console.log(this.getAttribute('target'), this.target, $(this).attr('target'), this.getAttribute('target') === this.target, this.getAttribute('target') === $(this).attr('target'));
-        });
-    </script>
-</body>
-</html>
+<header></header>
+<div>
+  <a id="href" href="/href">href-target</a>
+</div>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="//code.jquery.com/jquery.js"></script>
+<script>
+  $('#href').each(function() {
+    console.log(
+      'href',
+      this.getAttribute('href'),
+      this.href, $(this).attr('href'),
+      this.getAttribute('href') === this.href,
+      this.getAttribute('href') === $(this).attr('href')
+    );
+    console.log(
+      'target',
+      this.getAttribute('target'),
+      this.target, $(this).attr('target'),
+      this.getAttribute('target') === this.target,
+      this.getAttribute('target') === $(this).attr('target')
+    );
+  });
+</script>
+</body></html>

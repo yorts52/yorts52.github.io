@@ -1,8 +1,18 @@
-<!--#insert file="../template/-intro.html" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
 <title>饭前摇一摇</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
-<!--#insert file="../template/-outro.html" -->
+<link rel="stylesheet" href="/static/css/base.css">
+
 <style>
   h1 {
     font-size: 80px;
@@ -14,12 +24,29 @@
     top: 50%;
   }
 </style>
-<!--#insert file="../template/-header.html" -->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74766352deaef64bd5be6a9c4445da55";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+</head>
+<body>
+<header></header>
 <div>
   <h1 id="result"></h1>
 </div>
-<!--#insert file="../template/-footer.html" -->
-<!--#insert file="../template/-script.html" -->
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/static/script/lib/zepto.min.js"></script>
+<script src="/static/script/lib/wechat.js"></script>
+<script src="/static/script/base/tools.js"></script>
+<script src="/static/script/base/bom.js"></script>
+<script src="/static/script/base/logger.js"></script>
+
 <script>
   var list = [];
   var data = {
@@ -76,4 +103,4 @@
 
   update();
 </script>
-<!--#insert file="../template/-end.html" -->
+</body></html>

@@ -8,11 +8,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title></title>
+<title>tdate</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <link rel="stylesheet" href="/static/css/base.css">
 
+<style></style>
 <script>
   var _hmt = _hmt || [];
   (function() {
@@ -25,13 +26,7 @@
 </head>
 <body>
 <header></header>
-<iframe style="display:none" name="vote"></iframe>
-<form target="vote" action="//code.oa.com/v2/json/vote/application" method="post">
-    <input id="vid" type="hidden" name="id" value="2961">
-    <input id="aid" type="hidden" name="activityId" value="181">
-    <input id="submit" type="submit" style="display:none">
-</form>
-<script>submit.click()</script>
+<ol id="main"></ol>
 <footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
 
 <script src="/static/script/lib/zepto.min.js"></script>
@@ -40,4 +35,15 @@
 <script src="/static/script/base/bom.js"></script>
 <script src="/static/script/base/logger.js"></script>
 
+<script src="//cdn.gfzq.cn/trade-date/index.js"></script>
+<script>
+  var TD = new TradeDate('//cdn.gfzq.cn/trade-date/trade.date.js');
+  var T = '20170908';
+  var n = 30;
+  for (let d = -1 * n; d <= n; d++) {
+    TD.trade_date_next(T, d, function(date) {
+      main.innerHTML = main.innerHTML + `<li>${T} T${d < 0 ? '' : '+'}${d}: ${date}</li>`;
+    });
+  }
+</script>
 </body></html>

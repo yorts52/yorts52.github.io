@@ -1,45 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
- <head>
-    <meta charset="utf-8">
-    <title>Canvas</title>
- </head>
- <style type="text/css">
-    body{margin:20px auto; padding:0; width:25px; }
-    canvas{border:dashed 2px #CCC}
- </style>
- <script type="text/javascript">
-    function $$(id){
-        return document.getElementById(id);
-    }
-    function init(){
-        var can = $$('can');
-        var cans = can.getContext('2d');
-        cans.font = 'bold 40px Arial';
-        cans.textAlign = 'center';
-        cans.textBaseline = 'top';
-        // cans.strokeStyle = 'black';
-        // cans.strokeText('0', 12.5, 0);
-        cans.fillStyle = 'rgb(82, 146, 208)';
-        cans.fillText('0', 12.5, 0);
-        var data = cans.getImageData(0, 0, 25, 44);
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>Canvas</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/static/css/base.css">
 
-        var lines = [];
-        var i = 0;
-        for (var w = 0; w < data.width; w++) {
-            var line = [];
-            for (var h = 0; h < data.height; h++) {
-                line.push([data.data[i], data.data[i + 1], data.data[i + 2], data.data[i + 3]]);
-                i++;
-            }
-            lines.push(line);
-        }
+<style>
+  body {
+    margin: 20px auto;
+    padding: 0;
+    width: 25px;
+  }
 
-        console.log('ido', lines);
-        // document.write(JSON.stringify(lines));
+  canvas {
+    border: dashed 2px #CCC
+  }
+</style>
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74766352deaef64bd5be6a9c4445da55";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+</head>
+<body>
+<header></header>
+<div>
+  <canvas id="can" width="25px" height="44px"></canvas>
+</div>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/static/script/lib/zepto.min.js"></script>
+<script src="/static/script/lib/wechat.js"></script>
+<script src="/static/script/base/tools.js"></script>
+<script src="/static/script/base/bom.js"></script>
+<script src="/static/script/base/logger.js"></script>
+
+<script>
+  function $$(id) {
+    return document.getElementById(id);
+  }
+  function init() {
+    var can = $$('can');
+    var cans = can.getContext('2d');
+    cans.font = 'bold 40px Arial';
+    cans.textAlign = 'center';
+    cans.textBaseline = 'top';
+    // cans.strokeStyle = 'black';
+    // cans.strokeText('0', 12.5, 0);
+    cans.fillStyle = 'rgb(82, 146, 208)';
+    cans.fillText('0', 12.5, 0);
+    var data = cans.getImageData(0, 0, 25, 44);
+
+    var lines = [];
+    var i = 0;
+    for (var w = 0; w < data.width; w++) {
+      var line = [];
+      for (var h = 0; h < data.height; h++) {
+        line.push([data.data[i], data.data[i + 1], data.data[i + 2], data.data[i + 3]]);
+        i++;
+      }
+      lines.push(line);
     }
- </script>
-<body onload="init()">
-    <canvas id="can" width="25px" height="44px"></canvas>
-</body>
-</html>
+    console.log('lines:', lines);
+  }
+  setTimeout(init, 0);
+</script>
+</body></html>

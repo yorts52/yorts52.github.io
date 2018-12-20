@@ -8,12 +8,52 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title>input-ime</title>
+<title>Font</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <link rel="stylesheet" href="/static/css/base.css">
 
-<style></style>
+<style>
+  body,
+  html {
+    color: #222;
+    font-family: Helvetica, STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Tohoma, Arial;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    font-size: 14px;
+    line-height: 1.5em;
+    height: 100%;
+    width: 100%;
+    background-color: #f2f2f2;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    overflow-x: hidden
+  }
+
+  .f1 {
+    font-family: Helvetica;
+  }
+
+  .f2 {
+    font-family: STHeiti STXihei;
+  }
+
+  .f3 {
+    font-family: Microsoft JhengHei;
+  }
+
+  .f4 {
+    font-family: Microsoft YaHei;
+  }
+
+  .f5 {
+    font-family: Tohoma;
+  }
+
+  .f6 {
+    font-family: Arial;
+  }
+</style>
 <script>
   var _hmt = _hmt || [];
   (function() {
@@ -27,8 +67,15 @@
 <body>
 <header></header>
 <div>
-  <input type="text" onfocus="hideIme()">
-  <input type="text" id="hide_ime" style="background: #eee;">
+  <div>即将申购</div>
+  <div class="f1">即将申购 1</div>
+  <div class="f2">即将申购 2</div>
+  <div class="f3">即将申购 3</div>
+  <div class="f4">即将申购 4</div>
+  <div class="f5">即将申购 5</div>
+  <div class="f6">即将申购 6</div>
+  <div class="f7">即将申购 7</div>
+  <div class="f8">即将申购 8</div>
 </div>
 <footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
 
@@ -38,16 +85,5 @@
 <script src="/static/script/base/bom.js"></script>
 <script src="/static/script/base/logger.js"></script>
 
-<script>
-  function hideIme() {
-    setTimeout(function() {
-      hide_ime.focus();
-      hide_ime.setAttribute('disabled', 'disabled');
-      hide_ime.setAttribute('readonly', 'readonly');
-      hide_ime.blur();
-      hide_ime.removeAttribute('disabled');
-      hide_ime.removeAttribute('readonly');
-    }, 1000);
-  }
-</script>
+<script></script>
 </body></html>

@@ -2,6 +2,10 @@
   "name": "kael",
   "version": "0.0.1",
   "node_version": ">= 0.8.0",
+  "scripts": {
+    "build": "cd src && gulp && cd ..",
+    "postbuild": "node tools/index.js"
+  },
   "dependencies": {
     "cheerio": "^0.22.0",
     "gulp": "^3.9.1",

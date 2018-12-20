@@ -8,11 +8,23 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title></title>
+<title>Rest</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <link rel="stylesheet" href="/static/css/base.css">
 
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  #main {
+    margin: 0 auto;
+    position: relative;
+  }
+</style>
 <script>
   var _hmt = _hmt || [];
   (function() {
@@ -25,13 +37,7 @@
 </head>
 <body>
 <header></header>
-<iframe style="display:none" name="vote"></iframe>
-<form target="vote" action="//code.oa.com/v2/json/vote/application" method="post">
-    <input id="vid" type="hidden" name="id" value="2961">
-    <input id="aid" type="hidden" name="activityId" value="181">
-    <input id="submit" type="submit" style="display:none">
-</form>
-<script>submit.click()</script>
+<div id="main"></div>
 <footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
 
 <script src="/static/script/lib/zepto.min.js"></script>
@@ -40,4 +46,26 @@
 <script src="/static/script/base/bom.js"></script>
 <script src="/static/script/base/logger.js"></script>
 
+<script>
+  let main = document.getElementById('main');
+  let width = Math.min(window.innerHeight, window.innerWidth);
+  main.style.width = main.style.height = width + 'px';
+  let zpoint = width * .5;
+  let zindex = 1e9;
+  let zsteps = 1;
+  let ztimes = 0;
+  for (let i = 10; i < zpoint; i += 2 * zsteps) {
+    let div = document.createElement('div');
+    div.id = 'idx-' + i;
+    div.style.position = 'absolute';
+    div.style.border = zsteps + 'px solid #000';
+    div.style.width = div.style.height = (2 * i) + 'px';
+    div.style.left = div.style.top = (zpoint - i) + 'px';
+    main.appendChild(div);
+    if (!(++ztimes % 5)) {
+      zsteps += 1;
+      ztimes = 0;
+    }
+  }
+</script>
 </body></html>

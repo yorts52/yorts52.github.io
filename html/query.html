@@ -74,7 +74,8 @@
     width: 80px;
   }
 </style>
-<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/static/css/base.css">
+
 <script>
   var _hmt = _hmt || [];
   (function() {
@@ -105,11 +106,12 @@
 <div id="pager"></div>
 <footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
 
-<script src="/js/lib/zepto.min.js"></script>
-<script src="/js/lib/wechat.js"></script>
-<script src="/js/common/tools.js"></script>
-<script src="/js/common/bom.js"></script>
-<script src="/js/common/console.js"></script>
+<script src="/static/script/lib/zepto.min.js"></script>
+<script src="/static/script/lib/wechat.js"></script>
+<script src="/static/script/base/tools.js"></script>
+<script src="/static/script/base/bom.js"></script>
+<script src="/static/script/base/logger.js"></script>
+
 <script>
   var currentPage = parseInt((location.search.match(/page=(\d+)/) || [])[1], 10) || 0;
   var phone = (location.search.match(/phone=(\d+)/) || [])[1] || '';

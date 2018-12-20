@@ -12,7 +12,10 @@ var paths = {
     './**/*.png',
     './**/*.gif',
   ],
-  script: ['./**/*.js'],
+  script: [
+    './**/*.js',
+    '!./gulpfile.js',
+  ],
   dest: '../'
 };
 
