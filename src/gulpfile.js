@@ -4,15 +4,15 @@ var cleanCss = require('gulp-clean-css');
 var includer = require('gulp-htmlincluder');
 
 var paths = {
-  html: ['./html/**/*.html'],
-  css: ['./static/css/**/*.css'],
+  html: ['./**/*.html'],
+  css: ['./static/**/*.css'],
   img: [
-    './static/image/**/*.jpeg',
-    './static/image/**/*.jpg',
-    './static/image/**/*.png',
-    './static/image/**/*.gif',
+    './static/**/*.jpeg',
+    './static/**/*.jpg',
+    './static/**/*.png',
+    './static/**/*.gif',
   ],
-  script: ['./static/script/**/*.js'],
+  script: ['./static/**/*.js'],
   dest: '../'
 };
 
