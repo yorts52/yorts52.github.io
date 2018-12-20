@@ -5,14 +5,14 @@ var includer = require('gulp-htmlincluder');
 
 var paths = {
   html: ['./**/*.html'],
-  css: ['./static/**/*.css'],
+  css: ['./**/*.css'],
   img: [
-    './static/**/*.jpeg',
-    './static/**/*.jpg',
-    './static/**/*.png',
-    './static/**/*.gif',
+    './**/*.jpeg',
+    './**/*.jpg',
+    './**/*.png',
+    './**/*.gif',
   ],
-  script: ['./static/**/*.js'],
+  script: ['./**/*.js'],
   dest: '../'
 };
 
