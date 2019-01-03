@@ -1,0 +1,31 @@
+<!--#insert file="../template/-intro.html" -->
+<title>WeChat Share</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  img,
+  h1 {
+    display: block;
+    margin: 1em auto;
+    text-align: center;
+  }
+</style>
+<!--#insert file="../template/-header.html" -->
+<div>
+  <img class="share" src="https://loskael.github.io/source/h2/1.png" alt="h2">
+  <h1 id="share">share</h1>
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  share.onclick = function() {
+    typeof T !== 'undefined' && T.share && T.share();
+  };
+</script>
+<!--#insert file="../template/-end.html" -->
