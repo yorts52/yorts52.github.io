@@ -25,6 +25,7 @@
     "https://cdn.gfzq.cn/marketing/hd/static/chunjie/static/img/posterBg.58963ae.png",
     "https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/pie.png"
   ];
+  var src = imgs[location.hash.replace(/\D+/g, '')] || imgs[0];
 
   var cvs = document.getElementById('myCvs');
   var ctx = cvs.getContext('2d');
@@ -38,7 +39,7 @@
     var dataURL = cvs.toDataURL();
     imgTag.src = dataURL;
   }
-  img.src = imgs[location.hash.replace(/\D+/g, '')] || imgs[0];
+  img.src = src;
 
   //resets cache on src of img if it comes back undefined, using a 1x1 blank gif dataURI
   if (img.complete || img.complete === undefined) {
