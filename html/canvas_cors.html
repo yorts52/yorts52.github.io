@@ -57,7 +57,7 @@
   var ctx = cvs.getContext('2d');
 
   var img = new Image();
-  img.crossOrigin = "Anonymous";
+  /on/i.test(location.hash) && (img.crossOrigin = "Anonymous");
 
   img.onload = function() {
     ctx.drawImage(img, 10, 10);
