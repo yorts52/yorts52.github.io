@@ -59,7 +59,7 @@
   img.crossOrigin = "Anonymous";
 
   img.onload = function() {
-    ctx.drawImage(img, 400, 300);
+    ctx.drawImage(img, 10, 10);
     var imgTag = document.getElementById('myImg');
     var dataURL = cvs.toDataURL();
     imgTag.src = dataURL;
