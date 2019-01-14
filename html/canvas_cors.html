@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>Canvas COSR</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/static/css/base.css">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+</style>
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74766352deaef64bd5be6a9c4445da55";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+</head>
+<body>
+<header></header>
+<div>
+  <canvas id="myCvs"></canvas>
+  <img id="myImg">
+</div>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/static/script/lib/zepto.min.js"></script>
+<script src="/static/script/lib/wechat.js"></script>
+<script src="/static/script/base/tools.js"></script>
+<script src="/static/script/base/bom.js"></script>
+<script src="/static/script/base/logger.js"></script>
+
+<script>
+  var imgs = [
+    "https://www.baidu.com/img/bd_logo1.png",
+    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/pie.png"
+  ];
+
+  var cvs = document.getElementById('myCvs');
+  var ctx = cvs.getContext('2d');
+
+  var img = new Image();
+  img.crossOrigin = "Anonymous";
+
+  img.onload = function() {
+    ctx.drawImage(img, 100, 100);
+    var imgTag = document.getElementById('myImg');
+    var dataURL = cvs.toDataURL();
+    imgTag.src = dataURL;
+  }
+  img.src = imgs[Math.random() > .5 ? 1 : 0];
+
+  //resets cache on src of img if it comes back undefined, using a 1x1 blank gif dataURI
+  if (img.complete || img.complete === undefined) {
+    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    img.src = src;
+  }
+</script>
+</body></html>

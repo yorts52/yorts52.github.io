@@ -1,0 +1,46 @@
+<!--#insert file="../template/-intro.html" -->
+<title>Canvas COSR</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+</style>
+<!--#insert file="../template/-header.html" -->
+<div>
+  <canvas id="myCvs"></canvas>
+  <img id="myImg">
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  var imgs = [
+    "https://www.baidu.com/img/bd_logo1.png",
+    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/pie.png"
+  ];
+
+  var cvs = document.getElementById('myCvs');
+  var ctx = cvs.getContext('2d');
+
+  var img = new Image();
+  img.crossOrigin = "Anonymous";
+
+  img.onload = function() {
+    ctx.drawImage(img, 100, 100);
+    var imgTag = document.getElementById('myImg');
+    var dataURL = cvs.toDataURL();
+    imgTag.src = dataURL;
+  }
+  img.src = imgs[Math.random() > .5 ? 1 : 0];
+
+  //resets cache on src of img if it comes back undefined, using a 1x1 blank gif dataURI
+  if (img.complete || img.complete === undefined) {
+    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    img.src = src;
+  }
+</script>
+<!--#insert file="../template/-end.html" -->
