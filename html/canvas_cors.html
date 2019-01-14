@@ -35,6 +35,8 @@
 <div>
   <canvas id="myCvs"></canvas>
   <img id="myImg">
+  <img src="https://www.baidu.com/img/bd_logo1.png">
+  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/pie.png">
 </div>
 <footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
 
@@ -57,12 +59,12 @@
   img.crossOrigin = "Anonymous";
 
   img.onload = function() {
-    ctx.drawImage(img, 100, 100);
+    ctx.drawImage(img, 400, 300);
     var imgTag = document.getElementById('myImg');
     var dataURL = cvs.toDataURL();
     imgTag.src = dataURL;
   }
-  img.src = imgs[Math.random() > .5 ? 1 : 0];
+  img.src = imgs[location.hash.replace(/\D+/g, '')] || imgs[0];
 
   //resets cache on src of img if it comes back undefined, using a 1x1 blank gif dataURI
   if (img.complete || img.complete === undefined) {
