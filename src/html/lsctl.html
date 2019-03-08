@@ -26,10 +26,11 @@
   }
 
   textarea {
-    width: 1234px;
+    width: 1800px;
   }
 
-  .ts, .side-link {
+  .ts,
+  .side-link {
     position: fixed;
     right: 20px;
     top: 20px;
@@ -101,6 +102,20 @@
 </div>
 
 <div class="line">
+  <label for="version">Content Type</label>
+  <select name="contentType" id="contentType">
+    <option value="0">json</option>
+    <option value="1">encoding</option>
+    <option value="2" selected>raw</option>
+  </select>
+</div>
+
+<div class="line">
+  <label for="keyword">keyword</label>
+  <input type="text" name="keyword" id="keyword" value="">
+</div>
+
+<div class="line">
   <input type="button" id="copy" value="copy">
 </div>
 
@@ -111,10 +126,6 @@
 <div class="ts" id="ts"></div>
 
 <div class="side-link" id="sidelink"></div>
-
-<div class="line">
-  <textarea name="log" id="log" cols="30" rows="10" placeholder="PASTE AMAZING LOG PLS"></textarea>
-</div>
 
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
@@ -138,20 +149,23 @@
     }
     begin.value = timeStr(begin.value);
     end.value = timeStr(end.value);
+    var keyParam = '';
+    if (keyword.value) {
+      keyParam = ` --key "${keyword.value.replace(/"/g, '')}"`;
+    }
     if (cluster.value) {
       cmd.value = `rm *.log
-lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}`;
+lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}`;
     } else {
       cmd.value = `rm *.log
-lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag kxc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}
+lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag kxc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}
 mv ${serviceName.value}.log ${serviceName.value}.kxc1.log
-lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag mc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value}
+lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag mc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}
 cat ${serviceName.value}.kxc1.log >> ${serviceName.value}.log
 rm ${serviceName.value}.kxc1.log
 ls -lh
 `;
     }
-    logparse();
   }, 100);
   [
     [5, '5 minutes'],
@@ -168,25 +182,7 @@ ls -lh
     ts.appendChild(link);
   });
 
-  let prev_log_value = '';
-  function logparse() {
-    try {
-      if (!log.value) return;
-      if (prev_log_value == log.value) return;
-      prev_log_value = localStorage.last_lsctl_log = log.value;
-      window.__log__ = log.value.toString().trim().split('\n').map(v => {
-        return ('' + JSON.parse(v).log).trim().replace(/^\[\w+-\d+\] /, '');
-      }).join('').replace(/^[\w\W]+?(?:\} (\{)| RESP )/, '$1');
-      window.__data__ = JSON.parse(window.__log__);
-    } catch (error) {
-      console.error('log parse error:', error);
-    }
-  };
-
   window.onload = function() {
-    if (localStorage.last_lsctl_log) {
-      log.value = localStorage.last_lsctl_log;
-    }
     if (localStorage.inner_host) {
       host.value = localStorage.inner_host;
       [
