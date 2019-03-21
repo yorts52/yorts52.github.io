@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "node_version": ">= 0.8.0",
   "scripts": {
+    "start": "python -m SimpleHTTPServer",
     "build": "cd src && gulp && cd ..",
     "postbuild": "mv html/index.html index.html && node tools/index.js"
   },

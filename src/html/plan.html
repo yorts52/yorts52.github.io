@@ -1,0 +1,81 @@
+<!--#insert file="../template/-intro.html" -->
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<!--#insert file="../template/-header.html" -->
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  footer {
+    display: none;
+  }
+
+  #main {
+    text-align: center;
+    padding: 40vh 0;
+    height: 100vh;
+    width: 100vw;
+    line-height: 10vh;
+    position: relative;
+    z-index: 10;
+  }
+
+  #main span {
+    font-size: 5vh;
+  }
+
+  #main p {
+    font-size: 5vh;
+  }
+
+  #main_surplus {
+    height: 100vh;
+    width: 100vw;
+    background: #ccc;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+</style>
+<div id="main"></div>
+<div id="main_surplus"></div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  const plan_format = /^(\d\d):(\d\d) - (\d\d):(\d\d) ([\w\W]+)$/;
+  const calc_value = (h, m) => h * 60 + m * 1;
+  window.onload = function() {
+    let plan = localStorage.plan;
+    if (!plan) return;
+    let now = new Date();
+    let now_value = calc_value(now.getHours(), now.getMinutes());
+    plan
+      .replace(/（/g, '(')
+      .replace(/）/g, ')')
+      .replace(/：/g, ':')
+      .split(/\n/)
+      .filter(v => v && ('' + v).trim())
+      .forEach((v) => {
+        let [raw, sh, sm, eh, em, task] = v.match(plan_format);
+        if (now_value >= calc_value(sh, sm) && now_value < calc_value(eh, em)) {
+          main.innerHTML = [
+            `<span>${sh}:${sm} - ${eh}:${em}</span>`,
+            `<p>${task}</p>`,
+          ].join('<br>');
+        }
+      });
+  };
+  const surplus = () => {
+    let now = new Date();
+    let total = calc_value(24, 0);
+    let used = calc_value(now.getHours(), now.getMinutes());
+    let ratio = (total - used) / total * 100;
+    main_surplus.style.height = ratio + 'vh';
+  };
+  surplus(), setInterval(surplus, 10 * 60 * 1000);
+</script>
+<!--#insert file="../template/-end.html" -->
