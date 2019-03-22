@@ -9,14 +9,24 @@
     box-sizing: border-box;
   }
 
+  ::selection {
+    background: #269e26;
+    color: #fff;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
   footer {
     display: none;
   }
 
   #main {
     text-align: center;
-    padding: 40vh 0;
-    height: 100vh;
+    padding: 32vh 0 0;
+    height: 100%;
     width: 100vw;
     line-height: 10vh;
     position: relative;
@@ -32,11 +42,15 @@
   }
 
   #main_surplus {
-    height: 100vh;
+    height: 10vw;
     width: 100vw;
-    background: #ccc;
+    font-size: 6vw;
+    line-height: 10vw;
+    text-align: center;
+    background: #269e26;
+    color: #fff;
     position: fixed;
-    left: 0;
+    right: 0;
     bottom: 0;
     z-index: 1;
   }
@@ -74,7 +88,8 @@
     let total = calc_value(24, 0);
     let used = calc_value(now.getHours(), now.getMinutes());
     let ratio = (total - used) / total * 100;
-    main_surplus.style.height = ratio + 'vh';
+    main_surplus.style.width = ratio + 'vh';
+    main_surplus.innerText = parseInt(ratio, 10);
   };
   surplus(), setInterval(surplus, 10 * 60 * 1000);
 </script>
