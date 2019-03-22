@@ -62,7 +62,16 @@
 <script>
   const plan_format = /^(\d\d):(\d\d) - (\d\d):(\d\d) ([\w\W]+)$/;
   const calc_value = (h, m) => h * 60 + m * 1;
-  window.onload = function() {
+  const surplus = () => {
+    let now = new Date();
+    let total = calc_value(24, 0);
+    let used = calc_value(now.getHours(), now.getMinutes());
+    let ratio = (total - used) / total * 100;
+    main_surplus.style.width = ratio + 'vh';
+    main_surplus.innerText = parseInt(ratio, 10);
+  };
+  function refresh() {
+    surplus();
     let plan = localStorage.plan;
     if (!plan) return;
     let now = new Date();
@@ -83,14 +92,7 @@
         }
       });
   };
-  const surplus = () => {
-    let now = new Date();
-    let total = calc_value(24, 0);
-    let used = calc_value(now.getHours(), now.getMinutes());
-    let ratio = (total - used) / total * 100;
-    main_surplus.style.width = ratio + 'vh';
-    main_surplus.innerText = parseInt(ratio, 10);
-  };
-  surplus(), setInterval(surplus, 10 * 60 * 1000);
+  window.onload = refresh;
+  setInterval(refresh, 10 * 60 * 1000);
 </script>
 <!--#insert file="../template/-end.html" -->
