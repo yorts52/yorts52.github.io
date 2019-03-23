@@ -67,7 +67,7 @@
     let total = calc_value(24, 0);
     let used = calc_value(now.getHours(), now.getMinutes());
     let ratio = (total - used) / total * 100;
-    main_surplus.style.width = ratio + 'vh';
+    main_surplus.style.width = ratio + 'vw';
     main_surplus.innerText = parseInt(ratio, 10);
   };
   function refresh() {
