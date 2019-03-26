@@ -1,0 +1,37 @@
+<!--#insert file="../template/-intro.html" -->
+<title>cplan</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<!--#insert file="../template/-header.html" -->
+<style>
+  textarea,
+  button {
+    display: block;
+    margin: 4vh auto;
+    width: 80vw;
+    height: 52vh;
+    padding: 6px;
+  }
+
+  button {
+    height: 6vh;
+  }
+</style>
+<textarea id="cplan"></textarea>
+<button id="create">create</button>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  window.onload = function() {
+    if (localStorage.plan) {
+      cplan.value = localStorage.plan;
+    }
+  }
+  create.onclick = function() {
+    localStorage.plan = cplan.value;
+    create.innerText = 'done';
+    create.disabled = true;
+  };
+</script>
+<!--#insert file="../template/-end.html" -->
