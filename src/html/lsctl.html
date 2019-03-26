@@ -155,12 +155,12 @@
     }
     if (cluster.value) {
       cmd.value = `rm *.log
-lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}`;
+lsctl import -a --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag ${cluster.value} --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}`;
     } else {
       cmd.value = `rm *.log
-lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag kxc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}
+lsctl import -a --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag kxc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}
 mv ${serviceName.value}.log ${serviceName.value}.kxc1.log
-lsctl import --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag mc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}
+lsctl import -a --date ${date.value} --begin ${begin.value} --end ${end.value} --clusterTag mc1 --namespace ${namespace.value} --name ${serviceName.value} --version ${version.value} --contentType ${contentType.value}${keyParam}
 cat ${serviceName.value}.kxc1.log >> ${serviceName.value}.log
 rm ${serviceName.value}.kxc1.log
 ls -lh
