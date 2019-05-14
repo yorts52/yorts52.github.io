@@ -3,11 +3,31 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <!--#insert file="../template/-outro.html" -->
-<style></style>
+<style>
+  textarea {
+    display: block;
+    margin: 5vw auto;
+    padding: 1em;
+    width: 90vw;
+    height: 90vw;
+    border: 1px solid seagreen;
+  }
+
+  input[type=button] {
+    display: block;
+    margin: 0 auto;
+    width: 90vw;
+    height: 15vw;
+    font-size: 5vw;
+    border: 1px solid slateblue;
+    background: linear-gradient(slateblue, #9198e5);
+    color: #fff;
+  }
+</style>
 <!--#insert file="../template/-header.html" -->
 <div>
-  <input type="text" id="gfurl" placeholder="url">
-  <input type="button" value="open" id="hehe">
+  <textarea name="gfurl" id="gfurl" cols="30" rows="10"></textarea>
+  <input type="button" value="OPEN" id="hehe">
 </div>
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
