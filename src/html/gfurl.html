@@ -1,0 +1,21 @@
+<!--#insert file="../template/-intro.html" -->
+<title>gfurl</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style></style>
+<!--#insert file="../template/-header.html" -->
+<div>
+  <input type="text" id="gfurl" placeholder="url">
+  <input type="button" value="open" id="hehe">
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+  hehe.onclick = function () {
+    if (!gfurl.value) return alert('url is required.');
+    let uri = ["ytjapp://gf_ios?dest_url=", "gfzqapp://gf_android?dest_url="];
+    location.href = uri[/iPhone/i.test(navigator.userAgent) ? 0 : 1] + encodeURIComponent(gfurl.value);
+  };
+</script>
+<!--#insert file="../template/-end.html" -->
