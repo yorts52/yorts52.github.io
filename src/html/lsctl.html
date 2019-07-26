@@ -67,12 +67,12 @@
 
 <div class="line">
   <label for="begin">Begin</label>
-  <input type="time" name="begin" id="begin">
+  <input type="text" name="begin" id="begin">
 </div>
 
 <div class="line">
   <label for="end">End</label>
-  <input type="time" name="end" id="end">
+  <input type="text" name="end" id="end">
 </div>
 
 <div class="line">
@@ -125,6 +125,11 @@
 
 <div class="ts" id="ts"></div>
 
+<div class="line">
+  <label for="tit">type=time</label>
+  <input type="checkbox" name="tit" id="tit">
+</div>
+
 <div class="side-link" id="sidelink"></div>
 
 <!--#insert file="../template/-footer.html" -->
@@ -138,8 +143,13 @@
     console.log('time diff:', diff);
     let now = Date.now() + 8 * 60 * 60 * 1000;
     date.value = new Date(now).toISOString().substring(0, 10);
-    begin.value = new Date(now - diff * 60 * 1000).toISOString().substring(11, 19);
-    end.value = new Date(now).toISOString().substring(11, 19);
+    if (location.hash == '#1d') {
+      begin.value = '00:00:00';
+      end.value = '23:59:59';
+    } else {
+      begin.value = new Date(now - diff * 60 * 1000).toISOString().substring(11, 19);
+      end.value = new Date(now).toISOString().substring(11, 19);
+    }
   }
   initTime();
   window.onhashchange = initTime;
@@ -175,6 +185,7 @@ ls -lh
     [90, '1.5 hours'],
     [120, '2 hours'],
     [240, '4 hours'],
+    ['1d', 'all day'],
   ].forEach(v => {
     let link = document.createElement('a');
     link.href = '#' + v[0];
@@ -182,7 +193,7 @@ ls -lh
     ts.appendChild(link);
   });
 
-  window.onload = function() {
+  window.onload = function () {
     if (localStorage.inner_host) {
       host.value = localStorage.inner_host;
       [
@@ -195,9 +206,20 @@ ls -lh
         sidelink.appendChild(link);
       });
     }
+    if (['time', 'text'].includes(localStorage.timeInputType)) {
+      begin.type = localStorage.timeInputType;
+      end.type = localStorage.timeInputType;
+      tit.checked = localStorage.timeInputType === 'time';
+    }
   };
 
-  copy.onclick = function() {
+  tit.onchange = function () {
+    localStorage.timeInputType = tit.checked ? 'time' : 'text';
+    begin.type = localStorage.timeInputType;
+    end.type = localStorage.timeInputType;
+  }
+
+  copy.onclick = function () {
     cmd.select();
     document.execCommand('copy');
   };
