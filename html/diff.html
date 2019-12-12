@@ -8,11 +8,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title>Bulk</title>
+<title>Diff</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
-<link rel="stylesheet" href="/static/css/base.css">
-
 
 <style>
   * {
@@ -100,8 +98,7 @@
     var right = parse($('#right').val());
     var lmap = new Map(left.map(v => [v, 0]));
     right.forEach(v => lmap.set(v, 1));
-    var lis = Array.from(lmap.keys()).filter(v => lmap.get(v) === 0).map(v => `<li>${v}</li>`);
-    $('#rs').html(lis);
+    document.getElementById('rs').innerHTML = Array.from(lmap.keys()).filter(v => lmap.get(v) === 0).map(v => `<li>${v}</li>`);
   });
 
 </script>
