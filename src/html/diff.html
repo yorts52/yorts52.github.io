@@ -1,0 +1,81 @@
+<!--#insert file="../template/-intro.html" -->
+<title>Bulk</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .wrap {
+    text-align: center;
+    overflow: hidden;
+  }
+
+  textarea {
+    border: 1px solid #000;
+    padding: 5px;
+    margin: 1%;
+    width: 48%;
+    height: 400px;
+    float: left;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+    line-height: 2em;
+    display: block;
+    margin: 1em auto;
+    padding: .5em 2em;
+  }
+
+  .wrap+p {
+    text-align: center;
+    padding-top: 10em;
+  }
+
+  footer {
+    clear: both;
+    text-align: center;
+    padding-top: 10em;
+  }
+</style>
+<!--#insert file="../template/-header.html" -->
+
+<div class="wrap">
+  <textarea id="left"></textarea>
+  <textarea id="right"></textarea>
+</div>
+<div class="oper">
+  <input type="button" id="diff" value="diff">
+</div>
+<ol id="rs"></ol>
+
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+
+  function parse(val) {
+    return ('' + val).trim().split(/\r?\n/).map(v => v.replace(/[\d.、]+/, '').trim());
+  }
+
+  $('#diff').click(function() {
+    var left = parse($('#left').val());
+    var right = parse($('#right').val());
+    var lmap = new Map(left.map(v => [v, 0]));
+    right.forEach(v => lmap.set(v, 1));
+    var lis = Array.from(lmap.keys()).filter(v => lmap.get(v) === 0).map(v => `<li>${v}</li>`);
+    $('#rs').html(lis);
+  });
+
+</script>
+<!--#insert file="../template/-end.html" -->
