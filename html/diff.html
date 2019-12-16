@@ -102,7 +102,7 @@
     var right = parse($('#right').val());
     var lmap = new Map(left.map(v => [v, 0]));
     right.forEach(v => lmap.set(v, 1));
-    document.getElementById('rs').innerHTML = Array.from(lmap.keys()).filter(v => lmap.get(v) === 0).map((v, i) => `<li>${i + 1}. ${v}</li>`);
+    document.getElementById('rs').innerHTML = Array.from(lmap.keys()).filter(v => lmap.get(v) === 0).map((v, i) => `<li>${i + 1}. ${v}</li>`).join('');
   });
 
 </script>
