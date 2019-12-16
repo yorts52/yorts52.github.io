@@ -42,6 +42,10 @@
     padding-top: 10em;
   }
 
+  li {
+    list-style-type: none;
+  }
+
   footer {
     clear: both;
     text-align: center;
@@ -62,9 +66,9 @@
 <!--#insert file="../template/-footer.html" -->
 <!--#insert file="../template/-script.html" -->
 <script>
-
+  var FORMAT_REG = /[\x00-\xff\u3002\uff1b\uff0c\uff1a\u201c\u201d\uff08\uff09\u3001\uff1f\u300a\u300b]+/;
   function parse(val) {
-    return ('' + val).trim().split(/\r?\n/).map(v => v.replace(/[\d.、]+/, '').trim());
+    return ('' + val).trim().split(/\r?\n/).map(v => v.replace(FORMAT_REG, '').trim());
   }
 
   $('#diff').click(function() {
@@ -72,7 +76,7 @@
     var right = parse($('#right').val());
     var lmap = new Map(left.map(v => [v, 0]));
     right.forEach(v => lmap.set(v, 1));
-    document.getElementById('rs').innerHTML = Array.from(lmap.keys()).filter(v => lmap.get(v) === 0).map(v => `<li>${v}</li>`);
+    document.getElementById('rs').innerHTML = Array.from(lmap.keys()).filter(v => lmap.get(v) === 0).map((v, i) => `<li>${i + 1}. ${v}</li>`);
   });
 
 </script>
