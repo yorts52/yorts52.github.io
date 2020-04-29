@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="baidu-site-verification" content="1k9RalvJRS" />
+<title>valid idcard</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/static/css/base.css">
+
+<style>
+  body {
+    margin-top: 30vh;
+    text-align: center;
+  }
+
+  p,
+  input {
+    padding: 3px 8px;
+    font-size: 32px;
+    font-style: italic;
+  }
+
+  input {
+    border: 1px solid #333;
+  }
+
+  ::placeholder {
+    color: #ccc;
+    font-size: 24px;
+  }
+</style>
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?74766352deaef64bd5be6a9c4445da55";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+</head>
+<body>
+<header></header>
+<div>
+  <input type="text" id="idno" placeholder="idcard no">
+  <p id="rst"></p>
+</div>
+<footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
+
+<script src="/static/script/lib/zepto.min.js"></script>
+<script src="/static/script/lib/wechat.js"></script>
+<script src="/static/script/base/tools.js"></script>
+<script src="/static/script/base/bom.js"></script>
+<script src="/static/script/base/logger.js"></script>
+
+<script>
+  const IDCARD_15 = /^(?:1[1-5]|2[1-3]|3[1-7]|4[1-6]|5[0-4]|6[1-5]|71|8[12]|91)\d{4}(?:\d{2})(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])\d{3}$/i;
+  const IDCARD_18 = /^(?:1[1-5]|2[1-3]|3[1-7]|4[1-6]|5[0-4]|6[1-5]|71|8[12]|91)\d{4}(?:(?:19|20)\d{2})(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])\d{3}[\dx]$/i;
+  const WEIGHT = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+  const INDEX = '10X98765432';
+
+  function calc(val) {
+    let sum = 0;
+    let chs = val.toUpperCase().split('');
+    for (let i = 0, l = chs.length; i < l; i++) {
+      sum += chs[i] * WEIGHT[i];
+    }
+    return INDEX.charAt(sum % 11);
+  }
+
+  function valid(val) {
+    if (val.length === 15) {
+      return IDCARD_15.test(val) ? val : '--';
+    }
+    if ([17, 18].includes(val.length)) {
+      let left = val.substr(0, 17);
+      let mod = val.substr(17, 1);
+      let cmod = calc(left);
+      return (!mod || mod === cmod) ? `${left}${cmod}` : '--';
+    }
+    return '--'
+  }
+
+  setInterval(() => rst.innerText = `${valid(idno.value)}`, 300);
+</script>
+</body></html>
