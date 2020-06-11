@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="baidu-site-verification" content="1k9RalvJRS" />
-<title>Canvas BG 2</title>
+<title>Image diff</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <link rel="stylesheet" href="/static/css/base.css">
@@ -32,12 +32,10 @@
 <body>
 <header></header>
 <div>
-  <input type="file" id="img1" onchange="readAsDataURL(event, 1)">
-  <input type="file" id="img2" onchange="readAsDataURL(event, 2)">
-  <input type="color" id="bg" style="height:19px">
-  <button onclick="create()">生成</button>
+  <input type="file" id="left" onchange="readAsDataURL(event, 'left')">
+  <button onclick="diff()">diff</button>
+  <br>
   <canvas id="canvas"></canvas>
-  <img id="canvasImg">
 </div>
 <footer>kael &copy; 2014-<script>document.write((new Date).getFullYear())</script></footer>
 
@@ -48,13 +46,10 @@
 <script src="/static/script/base/logger.js"></script>
 
 <script>
-  canvas.width = screen.width * 2;
-  canvas.height = screen.height;
 
-  var ctx = canvas.getContext("2d");
-  var imgs = {}
 
-  function readAsDataURL(event, index) {
+  var imgs = {};
+  function readAsDataURL(event, name) {
     // 检验是否为图像文件
     var file = event.target.files[0];
     if (!/image\/\w+/.test(file.type)) {
@@ -65,20 +60,35 @@
     // 将文件以Data URL形式读入页面
     reader.readAsDataURL(file);
     reader.onload = function(e) {
-      var img = imgs["img" + index] = new Image();
+      var img = imgs[name] = new Image();
       img.crossOrigin = "anonymous";
+      img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+      };
       img.src = this.result;
     };
   }
 
-  function create() {
-    ctx.fillStyle = bg.value;
+  function diff() {
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#eee";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    if (imgs.img1 && imgs.img2) {
-      ctx.drawImage(imgs.img1, 0, 0, screen.width, screen.height);
-      ctx.drawImage(imgs.img2, screen.width, 0, screen.width, screen.height);
-      var dataURL = canvas.toDataURL();
-      document.getElementById("canvasImg").src = dataURL;
+    if (imgs.left) {
+      ctx.drawImage(imgs.left, 0, 0, canvas.width, canvas.height);
+      var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < imgData.data.length; i += 4) {
+        var r = imgData.data[i + 0];
+        var g = imgData.data[i + 1];
+        var b = imgData.data[i + 2];
+        var mean = (r + g + b) / 3;
+        mean = mean > 127 ? 255 : 0;
+        imgData.data[i + 0] = mean;
+        imgData.data[i + 1] = mean;
+        imgData.data[i + 2] = mean;
+        imgData.data[i + 3] = 255;
+      }
+      ctx.putImageData(imgData, 0, 0);
     } else {
       alert("Add Image First.");
     }

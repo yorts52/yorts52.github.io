@@ -1,0 +1,70 @@
+<!--#insert file="../template/-intro.html" -->
+<title>Image diff</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<!--#insert file="../template/-outro.html" -->
+<style>
+  input {
+    border: 1px solid #123;
+    margin-bottom: 10px;
+  }
+</style>
+<!--#insert file="../template/-header.html" -->
+<div>
+  <input type="file" id="left" onchange="readAsDataURL(event, 'left')">
+  <button onclick="diff()">diff</button>
+  <br>
+  <canvas id="canvas"></canvas>
+</div>
+<!--#insert file="../template/-footer.html" -->
+<!--#insert file="../template/-script.html" -->
+<script>
+
+
+  var imgs = {};
+  function readAsDataURL(event, name) {
+    // 检验是否为图像文件
+    var file = event.target.files[0];
+    if (!/image\/\w+/.test(file.type)) {
+      alert("看清楚，这个需要图片！");
+      return false;
+    }
+    var reader = new FileReader();
+    // 将文件以Data URL形式读入页面
+    reader.readAsDataURL(file);
+    reader.onload = function(e) {
+      var img = imgs[name] = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+      };
+      img.src = this.result;
+    };
+  }
+
+  function diff() {
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#eee";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (imgs.left) {
+      ctx.drawImage(imgs.left, 0, 0, canvas.width, canvas.height);
+      var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < imgData.data.length; i += 4) {
+        var r = imgData.data[i + 0];
+        var g = imgData.data[i + 1];
+        var b = imgData.data[i + 2];
+        var mean = (r + g + b) / 3;
+        mean = mean > 127 ? 255 : 0;
+        imgData.data[i + 0] = mean;
+        imgData.data[i + 1] = mean;
+        imgData.data[i + 2] = mean;
+        imgData.data[i + 3] = 255;
+      }
+      ctx.putImageData(imgData, 0, 0);
+    } else {
+      alert("Add Image First.");
+    }
+  }
+</script>
+<!--#insert file="../template/-end.html" -->
