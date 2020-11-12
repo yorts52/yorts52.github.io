@@ -8,13 +8,13 @@
   "background_color": "#fff",
   "icons": [
     {
-      "src": "/assets/icons/i-48.png",
-      "sizes": "48x48",
+      "src": "/assets/icons/i-192.png",
+      "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/assets/icons/i-128.png",
-      "sizes": "128x128",
+      "src": "/assets/icons/i-512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
