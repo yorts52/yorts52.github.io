@@ -1,0 +1,21 @@
+{
+  "name": "I'm here, mortal.",
+  "short_name": "loskael",
+  "start_url": "./?utm_source=manifest",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#000",
+  "background_color": "#fff",
+  "icons": [
+    {
+      "src": "/assets/icons/i-48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/i-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ]
+}
