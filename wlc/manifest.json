@@ -1,6 +1,7 @@
 {
   "name": "Web Launch Checklist",
   "short_name": "WebChecklist",
+  "start_url": "/wlc/index.html?utm_source=manifest",
   "icons": [
     {
       "src": "/wlc/android-chrome-192x192.png",
